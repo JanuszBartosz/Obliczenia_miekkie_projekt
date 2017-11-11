@@ -105,9 +105,34 @@ public class Entity {
         return radius;
     }
 
-    public void draw(ShapeRenderer shapeRenderer){
+    private void draw(ShapeRenderer shapeRenderer, float x, float y){
         shapeRenderer.setColor(color);
         shapeRenderer.circle(x, y, radius);
+    }
+
+    public void draw(ShapeRenderer shapeRenderer){
+        draw(shapeRenderer, x, y);
+
+        // Draw entity on different side
+        float newX = x;
+        float newY = y;
+        if(x < radius){
+            newX = x + borderX;
+        }
+
+        if(y < radius){
+            newY = y + borderY;
+        }
+
+        if(x + radius > borderX){
+            newX = x - borderX;
+        }
+
+        if(y + radius > borderY){
+            newY = y - borderY;
+        }
+
+        draw(shapeRenderer, newX, newY);
     }
 
     public static void draw(ShapeRenderer shapeRenderer, ArrayList<Entity> entities){

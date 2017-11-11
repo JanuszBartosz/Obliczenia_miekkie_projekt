@@ -40,7 +40,7 @@ public class PrimodialSoup extends ApplicationAdapter {
 		stepTimer.scheduleAtFixedRate(new EntityStepTask(entities), 0, millisecondsPerTick);
 
 		angleTimer = new Timer("Angle change timer");
-		angleTimer.scheduleAtFixedRate(new EntityAngleTask(entities), 0, millisecondsToChangeAngle);
+		angleTimer.scheduleAtFixedRate(new EntityAngleTask(entities), millisecondsToChangeAngle, millisecondsToChangeAngle);
 	}
 
 	@Override
