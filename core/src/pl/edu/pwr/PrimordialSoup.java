@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PrimodialSoup extends ApplicationAdapter {
-	public PrimodialSoup(int width, int height){
+public class PrimordialSoup extends ApplicationAdapter {
+	public PrimordialSoup(int width, int height){
 		Entity.setBorders(width, height);
 	}
 
