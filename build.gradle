@@ -53,7 +53,6 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile 'io.jenetics:jenetics:3.9.0'
         compile group: 'org.apache.commons', name: 'commons-math3', version: '3.2'
     }
 }
