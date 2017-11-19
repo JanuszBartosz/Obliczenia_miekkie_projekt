@@ -1,4 +1,4 @@
-package pl.edu.pwr;
+package pl.edu.pwr.graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Entity {
     // ===== PUBLIC =====
-    Entity(float x, float y, float speed, float angle, Color color, float radius){
+    public Entity(float x, float y, float speed, float angle, Color color, float radius){
         setX(x);
         setY(y);
         setSpeed(speed);

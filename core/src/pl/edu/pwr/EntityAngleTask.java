@@ -1,5 +1,7 @@
 package pl.edu.pwr;
 
+import pl.edu.pwr.graphics.Entity;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
