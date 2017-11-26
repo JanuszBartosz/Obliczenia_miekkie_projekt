@@ -194,6 +194,7 @@ public class Entity {
     public String toString() {
         return String.format("x=%f, y=%f, speed=%f, angle=%f, radius=%f", x, y, speed, angle, radius);
     }
+
     public static Map<Entity, Set<Entity>> getIntersectedEntities(ArrayList<Entity> entities){
         Map<Entity, Set<Entity>> retVal = new HashMap<>();
         if(entities != null){
@@ -229,6 +230,41 @@ public class Entity {
                         }
                         secondSet.add(entities.get(i));
                         retVal.put(entities.get(j), secondSet);
+                    }
+                }
+            }
+        }
+
+        return retVal;
+    }
+
+    public static Map<Entity, Set<Entity>> getIntersectedEntities(ArrayList<Entity> intersectors,
+                                                                  ArrayList<Entity> intersectees){
+        Map<Entity, Set<Entity>> retVal = new HashMap<>();
+        if(intersectors != null && intersectees != null){
+            for(Entity intersector : intersectors){
+                for(Entity intersectee : intersectees){
+                    final float radiusSum = intersector.getRadius() + intersectee.getRadius();
+                    final float e1X = intersector.getX();
+                    final float e1Y = intersector.getY();
+                    final float e2X = intersectee.getX();
+                    final float e2Y = intersectee.getY();
+                    final float distanceNormal = euclideanDistance(e1X, e1Y, e2X, e2Y);
+                    final float distanceTransposed = euclideanDistance(e1X,
+                            e1Y,
+                            e2X - Parameters.borderX,
+                            e2Y - Parameters.borderY);
+                    // Get minimal value, because map is a torus
+                    final float distance = Math.min(distanceNormal, distanceTransposed);
+
+                    // Detect intersection and add entry only to intersectors
+                    if(distance < radiusSum){
+                        Set<Entity> set = retVal.get(intersector);
+                        if(set == null){
+                            set = new HashSet<>();
+                        }
+                        set.add(intersectee);
+                        retVal.put(intersector, set);
                     }
                 }
             }
