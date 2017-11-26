@@ -7,7 +7,7 @@ import pl.edu.pwr.engine.Parameters;
 import java.util.*;
 import java.util.function.Supplier;
 
-public abstract class Entity {
+public class Entity {
 
     // ===== PRIVATE =====
     protected final static float maxAngle = 2 * (float) Math.PI;
@@ -79,7 +79,9 @@ public abstract class Entity {
         this.y = y;
     }
 
-    public abstract void setNextInputs(double[] inputs);
+    public void setNextInputs(double[] inputs) {
+    }
+
 
     public float getSpeed() {
         return speed;
