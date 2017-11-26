@@ -1,6 +1,5 @@
 package pl.edu.pwr.engine.training;
 
-import com.sun.deploy.util.ArrayUtil;
 import org.apache.commons.math3.random.RandomDataGenerator;
 import pl.edu.pwr.engine.Parameters;
 

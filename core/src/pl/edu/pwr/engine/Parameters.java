@@ -12,4 +12,5 @@ public class Parameters {
     public static double specimenMutationRate = 0.3d;
     public static double geneMutationRate = 0.2d;
     public static double maxMutationValue = 0.2d;
+
 }
