@@ -14,6 +14,7 @@ public class Entity {
         setAngle(angle);
         setColor(color);
         setRadius(radius);
+        children = new ArrayList<>();
     }
 
     public void setX(float x){
@@ -133,6 +134,25 @@ public class Entity {
         }
 
         draw(shapeRenderer, newX, newY);
+
+        calculateChildrenPositions();
+        drawChildren(shapeRenderer);
+    }
+
+    private void calculateChildrenPositions() {
+        for(RelativeEntity re : children){
+            re.setAngle(getAngle() + re.getRelativeAngle());
+            if(re.getRelativeRadius() != 0){
+                re.setX(getX() + (float)Math.sin(re.getAngle()) * re.getRelativeRadius());
+                re.setY(getY() + (float)Math.cos(re.getAngle()) * re.getRelativeRadius());
+            }
+        }
+    }
+
+    private void drawChildren(ShapeRenderer shapeRenderer) {
+        for(RelativeEntity re : children){
+            re.draw(shapeRenderer);
+        }
     }
 
     public static void draw(ShapeRenderer shapeRenderer, ArrayList<Entity> entities){
@@ -141,10 +161,21 @@ public class Entity {
         }
     }
 
+    // Adds child that is drawn relative to parent
+    public void addRelativeChild(Entity entity, float radius, float angle){
+        addRelativeChild(new RelativeEntity(entity, radius, angle));
+    }
+
+    public void addRelativeChild(RelativeEntity entity){
+        children.add(entity);
+    }
+
     @Override
     public String toString() {
         return String.format("x=%f, y=%f, speed=%f, angle=%f, radius=%f", x, y, speed, angle, radius);
     }
+
+    protected final static float maxAngle = 2 * (float)Math.PI;
 
     // ===== PRIVATE =====
     // Current entity position and speed
@@ -155,13 +186,14 @@ public class Entity {
     // Facing angle of entity in radians, counterclockwise
     // 0 means facing right, pi facing left
     private float angle;
-    private final static float maxAngle = 2 * (float)Math.PI;
 
     // Board borders
     private static float borderX;
     private static float borderY;
 
-    // Appereance variables
+    // Appearance variables
     private Color color;
     private float radius;
+
+    private ArrayList<RelativeEntity> children;
 }

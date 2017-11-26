@@ -25,11 +25,17 @@ public class SoupStage extends Stage {
 
         shapeRenderer = new ShapeRenderer();
 
+        Entity mouth = new Entity(0, 0, 0, 0, Color.RED, 3);
+
         entities = new ArrayList<>();
         entities.add(new Entity(200,200,1, 0, Color.BLACK, 10));
         entities.add(new Entity(200,200,1, (float)Math.PI / 2, Color.RED, 10));
         entities.add(new Entity(200,200,1, (float)Math.PI, Color.GREEN, 10));
         entities.add(new Entity(200,200,1, (float)Math.PI * 3 / 2, Color.BLUE, 10));
+
+        for(Entity e : entities){
+            e.addRelativeChild(mouth, e.getRadius(), 0);
+        }
 
         stepTimer = new Timer("Step make timer");
         stepTimer.scheduleAtFixedRate(new EntityStepTask(entities), 0, millisecondsPerTick);
