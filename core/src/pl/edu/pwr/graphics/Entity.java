@@ -2,40 +2,29 @@ package pl.edu.pwr.graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import javafx.scene.Parent;
 import pl.edu.pwr.engine.Parameters;
-import pl.edu.pwr.engine.model.FeedforwardNeuralNet;
-import pl.edu.pwr.engine.model.NeuralNet;
-import pl.edu.pwr.engine.model.NeuralNetParams;
 
 import java.util.*;
+import java.util.function.Supplier;
 
-public class Entity {
+public abstract class Entity {
 
     // ===== PRIVATE =====
-    private final static float maxAngle = 2 * (float) Math.PI;
-    // Board borders
-    private static float borderX;
-    private static float borderY;
+    protected final static float maxAngle = 2 * (float) Math.PI;
+    protected final static float maxSpeed = 2;
     // Current entity position and speed
-    private NeuralNet neuralNet;
-    private float x;
-    private float y;
-    private float speed;
+    protected float speed;
     // Facing angle of entity in radians, counterclockwise
     // 0 means facing right, pi facing left
-    private float angle;
+    protected float angle;
+    private float x;
+    private float y;
     // Appereance variables
     private Color color;
     private float radius;
 
     // ===== PUBLIC =====
-    public Entity(NeuralNetParams neuralNetParams, float x, float y, float speed, float angle, Color color, float radius) {
-        this.neuralNet = new FeedforwardNeuralNet(
-                neuralNetParams.numberLayers,
-                neuralNetParams.numberNeuronsPerLayer,
-                neuralNetParams.numberInputs,
-                neuralNetParams.numberOutputs);
+    public Entity(float x, float y, float speed, float angle, Color color, float radius) {
         setX(x);
         setY(y);
         setSpeed(speed);
@@ -50,8 +39,8 @@ public class Entity {
             throw new IllegalArgumentException(String.format("Arguments must be positive values: x=%f, y=%f", x, y));
         }
 
-        borderX = x;
-        borderY = y;
+        Parameters.borderX = x;
+        Parameters.borderY = y;
     }
 
     public static void draw(ShapeRenderer shapeRenderer, ArrayList<Entity> entities) {
@@ -66,10 +55,10 @@ public class Entity {
 
     public void setX(float x) {
         // Ensure x is in borders range
-        x %= borderX;
+        x %= Parameters.borderX;
 
         if (x < 0) {
-            x = borderX + x;
+            x = Parameters.borderX + x;
         }
 
         this.x = x;
@@ -81,14 +70,16 @@ public class Entity {
 
     public void setY(float y) {
         // Ensure y is in borders range
-        y %= borderY;
+        y %= Parameters.borderY;
 
         if (y < 0) {
-            y = borderY + y;
+            y = Parameters.borderY + y;
         }
 
         this.y = y;
     }
+
+    public abstract void setNextInputs(double[] inputs);
 
     public float getSpeed() {
         return speed;
@@ -152,19 +143,19 @@ public class Entity {
         float newX = x;
         float newY = y;
         if (x < radius) {
-            newX = x + borderX;
+            newX = x + Parameters.borderX;
         }
 
         if (y < radius) {
-            newY = y + borderY;
+            newY = y + Parameters.borderY;
         }
 
-        if (x + radius > borderX) {
-            newX = x - borderX;
+        if (x + radius > Parameters.borderX) {
+            newX = x - Parameters.borderX;
         }
 
-        if (y + radius > borderY) {
-            newY = y - borderY;
+        if (y + radius > Parameters.borderY) {
+            newY = y - Parameters.borderY;
         }
 
         draw(shapeRenderer, newX, newY);
