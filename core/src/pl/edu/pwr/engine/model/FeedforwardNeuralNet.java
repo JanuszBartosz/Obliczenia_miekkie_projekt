@@ -16,7 +16,7 @@ public class FeedforwardNeuralNet implements NeuralNet {
     List<RealMatrix> neuronLayers;
 
     //TODO: Maybe implement biases.
-    FeedforwardNeuralNet(int numberLayers, int numberNeuronsPerLayer, int numberInputs, int numberOutputs) {
+    public FeedforwardNeuralNet(int numberLayers, int numberNeuronsPerLayer, int numberInputs, int numberOutputs) {
 
         this.neuronLayers = new ArrayList<>();
 
