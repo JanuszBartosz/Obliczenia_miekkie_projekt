@@ -24,6 +24,23 @@ public class Simulation {
     public void simulate() {
 
         List<Entity> plantsToRemove;
+
+        for (Entity carnivore : carnivores) {
+            //Check if caught pray.
+            if (foundFood) {
+                carnivore.incrementFoundFood();
+            }
+            Entity nearestHerbivore = findNearestEntity(carnivore, herbivores);
+        }
+
+        for (Entity herbivore : herbivores) {
+            //Check if found plant.
+            if (foundFood) {
+                herbivore.incrementFoundFood();
+            }
+            Entity nearestPlant = findNearestEntity(herbivore, plants);
+            Entity nearestCarnivore = findNearestEntity(herbivore, carnivores);
+        }
     }
 
     public Entity findNearestEntity(Entity entity, List<Entity> entities) {
@@ -35,7 +52,7 @@ public class Simulation {
 
         for (Entity entityB : entities) {
             float distance = (float) Math.sqrt(Math.pow(entityB.getX() - x, 2) + Math.pow(entityB.getY() - y, 2));
-            if(distance < minDistance){
+            if (distance < minDistance) {
                 minDistance = distance;
                 closestEntity = entityB;
             }

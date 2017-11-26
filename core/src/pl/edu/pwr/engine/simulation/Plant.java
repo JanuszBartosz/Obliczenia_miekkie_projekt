@@ -9,7 +9,4 @@ public class Plant extends Entity {
         super(x, y, 0, 0, color, radius);
     }
 
-    @Override
-    public void setNextInputs(double[] inputs) {
-    }
 }

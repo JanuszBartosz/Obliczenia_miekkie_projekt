@@ -24,6 +24,8 @@ public class Entity {
 
     private ArrayList<RelativeEntity> children;
 
+    protected int foundFood;
+
     // ===== PUBLIC =====
     public Entity(float x, float y, float speed, float angle, Color color, float radius) {
         setX(x);
@@ -52,6 +54,10 @@ public class Entity {
 
     public float getX() {
         return x;
+    }
+
+    public void incrementFoundFood() {
+        foundFood++;
     }
 
     public void setX(float x) {
