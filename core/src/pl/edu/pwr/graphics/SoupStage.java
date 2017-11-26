@@ -21,7 +21,6 @@ public class SoupStage extends Stage {
     private final static long millisecondsPerTick = 10;
     private final static long millisecondsToChangeAngle = 1000;
     private ForwardableTimer stepTimer;
-    private ForwardableTimer angleTimer;
     private Simulation simulation;
 
     public SoupStage(int width, int height) {
@@ -30,8 +29,6 @@ public class SoupStage extends Stage {
         shapeRenderer = new ShapeRenderer();
         this.simulation = new Simulation();
         stepTimer = new EntityStepTimer(simulation, millisecondsPerTick, Timer.DURATION_INFINITY);
-        //angleTimer = new EntityAngleTimer(entities, millisecondsToChangeAngle, Timer.DURATION_INFINITY);
-        //angleTimer.start();
     }
 
     @Override
@@ -47,7 +44,6 @@ public class SoupStage extends Stage {
     public void dispose() {
         shapeRenderer.dispose();
         stepTimer.cancel();
-        angleTimer.cancel();
     }
 
     public ForwardableTimer getStepTimer() {
