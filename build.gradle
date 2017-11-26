@@ -43,7 +43,8 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        
+
+
     }
 }
 
@@ -55,6 +56,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
         compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+        compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
     }
 }
 

@@ -56,8 +56,8 @@ public class Entity {
         return x;
     }
 
-    public void incrementFoundFood() {
-        foundFood++;
+    public ArrayList<RelativeEntity> getChildren() {
+        return children;
     }
 
     public void setX(float x) {
@@ -107,7 +107,7 @@ public class Entity {
         angle %= maxAngle;
 
         if (angle < 0) {
-            angle = maxAngle - angle;
+            angle = maxAngle + angle;
         }
 
         this.angle = angle;
@@ -119,6 +119,10 @@ public class Entity {
             setY(getY() + (float) Math.cos(angle) * speed);
             calculateChildrenPositions();
         }
+    }
+
+    public void incrementFoundFood(int size) {
+        foundFood+=size;
     }
 
     public Color getColor() {
@@ -171,7 +175,7 @@ public class Entity {
         drawChildren(shapeRenderer);
     }
 
-    private void calculateChildrenPositions() {
+    public void calculateChildrenPositions() {
         for(RelativeEntity re : children){
             re.setAngle(getAngle() + re.getRelativeAngle());
             if(re.getRelativeRadius() != 0){
@@ -188,12 +192,13 @@ public class Entity {
     }
 
     // Adds child that is drawn relative to parent
-    public void addRelativeChild(Entity entity, float radius, float angle){
-        addRelativeChild(new RelativeEntity(entity, radius, angle));
+    public RelativeEntity addRelativeChild(Entity entity, float radius, float angle){
+        return addRelativeChild(new RelativeEntity(entity, radius, angle));
     }
 
-    public void addRelativeChild(RelativeEntity entity){
+    public RelativeEntity addRelativeChild(RelativeEntity entity){
         children.add(entity);
+        return entity;
     }
 
     @Override
@@ -244,8 +249,8 @@ public class Entity {
         return retVal;
     }
 
-    public static Map<Entity, Set<Entity>> getIntersectedEntities(ArrayList<Entity> intersectors,
-                                                                  ArrayList<Entity> intersectees){
+    public static Map<Entity, Set<Entity>> getIntersectedEntities(List<Entity> intersectors,
+                                                                  List<Entity> intersectees){
         Map<Entity, Set<Entity>> retVal = new HashMap<>();
         if(intersectors != null && intersectees != null){
             for(Entity intersector : intersectors){
@@ -279,7 +284,7 @@ public class Entity {
         return retVal;
     }
 
-    static float euclideanDistance(float x1, float y1, float x2, float y2){
+    public static float euclideanDistance(float x1, float y1, float x2, float y2){
         final float xDiff = Math.abs(x1 - x2);
         final float yDiff = Math.abs(y1 - y2);
         return (float)Math.sqrt(xDiff * xDiff + yDiff * yDiff);

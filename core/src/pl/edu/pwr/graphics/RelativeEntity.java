@@ -27,7 +27,7 @@ public class RelativeEntity extends Entity {
         relativeAngle %= maxAngle;
 
         if(relativeAngle < 0){
-            relativeAngle = maxAngle - relativeAngle;
+            relativeAngle = maxAngle + relativeAngle;
         }
 
         this.relativeAngle = relativeAngle;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Parameters {
 
-    public static double randomMatrixLowerBound = 0.3d;
+    public static double randomMatrixLowerBound = -0.3d;
     public static double randomMatrixUpperBound = 0.3d;
 
     public static int tournamentSize = 3;
