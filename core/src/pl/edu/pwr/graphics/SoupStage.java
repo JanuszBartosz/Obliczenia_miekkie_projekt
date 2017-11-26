@@ -38,6 +38,10 @@ public class SoupStage extends Stage {
             e.addRelativeChild(mouth, e.getRadius(), 0);
         }
 
+        for(Entity e : entities){
+            e.addRelativeChild(mouth, e.getRadius(), 0);
+        }
+
         stepTimer = new EntityStepTimer(entities, millisecondsPerTick, Timer.DURATION_INFINITY);
         angleTimer = new EntityAngleTimer(entities, millisecondsToChangeAngle, Timer.DURATION_INFINITY);
         angleTimer.start();

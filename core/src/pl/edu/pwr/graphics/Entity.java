@@ -23,6 +23,8 @@ public class Entity {
     private Color color;
     private float radius;
 
+    private ArrayList<RelativeEntity> children;
+
     // ===== PUBLIC =====
     public Entity(float x, float y, float speed, float angle, Color color, float radius) {
         setX(x);
@@ -185,6 +187,8 @@ public class Entity {
         addRelativeChild(new RelativeEntity(entity, radius, angle));
     }
 
+    public void addRelativeChild(RelativeEntity entity){
+        children.add(entity);
     public void addRelativeChild(RelativeEntity entity){
         children.add(entity);
     }
