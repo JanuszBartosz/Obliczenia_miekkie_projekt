@@ -23,7 +23,7 @@ public class Simulation {
         this.plants = Stream.generate(() -> EntityFactory.getEntity(EntityType.PLANT)).limit(Parameters.numberPlants).collect(Collectors.toList());
         this.herbivores = Stream.generate(() -> EntityFactory.getEntity(EntityType.HERBIVORE)).limit(Parameters.numberHerbivores).collect(Collectors.toList());
         this.carnivores = Stream.generate(() -> EntityFactory.getEntity(EntityType.CARNIVORE)).limit(Parameters.numberCarnivores).collect(Collectors.toList());
-
+        this.deadHerbivores = new ArrayList<>();
         this.herbivoresMouth = new ArrayList<>();
         this.carnivoresMouth = new ArrayList<>();
 
