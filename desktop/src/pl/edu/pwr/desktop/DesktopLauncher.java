@@ -10,7 +10,7 @@ public class DesktopLauncher {
 
 		Graphics.DisplayMode[] displayModes = LwjglApplicationConfiguration.getDisplayModes();
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.setFromDisplayMode(displayModes[displayModes.length - 1]);
+//		config.setFromDisplayMode(displayModes[displayModes.length - 1]);
 		for(Graphics.DisplayMode dm : displayModes){
 			System.out.println(dm.toString());
 		}
