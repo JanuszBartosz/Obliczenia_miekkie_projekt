@@ -47,7 +47,7 @@ public class Simulation {
         carnivores.forEach(Entity::calculateChildrenPositions);
     }
 
-    public void simulate() {
+    public synchronized void simulate() {
 
         Set<Entity> plantsToRemove = new HashSet<>();
 
@@ -134,7 +134,7 @@ public class Simulation {
         return closestEntity;
     }
 
-    public void drawAll(ShapeRenderer shapeRenderer){
+    public synchronized void drawAll(ShapeRenderer shapeRenderer){
 
         for (Entity plant : plants) {
             plant.draw(shapeRenderer);
