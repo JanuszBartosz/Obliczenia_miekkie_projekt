@@ -24,13 +24,14 @@ public class PrimordialSoup extends ApplicationAdapter {
 
 	private int width;
 	private int height;
-	private Stage soupStage;
-	private Stage menuStage;
+	private SoupStage soupStage;
+	private MenuStage menuStage;
 
 	@Override
 	public void create () {
 		soupStage = new SoupStage(width - sideBarWidth, height);
-		menuStage = new MenuStage(sideBarWidth, height, width - sideBarWidth);
+		menuStage = new MenuStage(sideBarWidth, height, width - sideBarWidth, soupStage.getStepTimer());
+		Gdx.input.setInputProcessor(menuStage);
 	}
 
 	@Override

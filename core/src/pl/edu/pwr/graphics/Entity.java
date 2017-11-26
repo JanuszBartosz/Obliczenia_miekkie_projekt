@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import pl.edu.pwr.engine.Parameters;
 
-import java.util.ArrayList;
-import java.util.function.Supplier;
+import java.util.*;
 
 public class Entity {
 
@@ -23,6 +22,8 @@ public class Entity {
     private Color color;
     private float radius;
 
+    private ArrayList<RelativeEntity> children;
+
     // ===== PUBLIC =====
     public Entity(float x, float y, float speed, float angle, Color color, float radius) {
         setX(x);
@@ -31,6 +32,7 @@ public class Entity {
         setAngle(angle);
         setColor(color);
         setRadius(radius);
+        children = new ArrayList<>();
     }
 
     public static void setBorders(float x, float y) {
@@ -109,6 +111,7 @@ public class Entity {
         if (speed != 0) {
             setX(getX() + (float) Math.sin(angle) * speed);
             setY(getY() + (float) Math.cos(angle) * speed);
+            calculateChildrenPositions();
         }
     }
 
@@ -159,10 +162,84 @@ public class Entity {
         }
 
         draw(shapeRenderer, newX, newY);
+        drawChildren(shapeRenderer);
+    }
+
+    private void calculateChildrenPositions() {
+        for(RelativeEntity re : children){
+            re.setAngle(getAngle() + re.getRelativeAngle());
+            if(re.getRelativeRadius() != 0){
+                re.setX(getX() + (float)Math.sin(re.getAngle()) * re.getRelativeRadius());
+                re.setY(getY() + (float)Math.cos(re.getAngle()) * re.getRelativeRadius());
+            }
+        }
+    }
+
+    private void drawChildren(ShapeRenderer shapeRenderer) {
+        for(RelativeEntity re : children){
+            re.draw(shapeRenderer);
+        }
+    }
+
+    // Adds child that is drawn relative to parent
+    public void addRelativeChild(Entity entity, float radius, float angle){
+        addRelativeChild(new RelativeEntity(entity, radius, angle));
+    }
+
+    public void addRelativeChild(RelativeEntity entity){
+        children.add(entity);
     }
 
     @Override
     public String toString() {
         return String.format("x=%f, y=%f, speed=%f, angle=%f, radius=%f", x, y, speed, angle, radius);
+    }
+    public static Map<Entity, Set<Entity>> getIntersectedEntities(ArrayList<Entity> entities){
+        Map<Entity, Set<Entity>> retVal = new HashMap<>();
+        if(entities != null){
+            for(int i = 0; i < entities.size(); i++){
+                for(int j = i + 1; j < entities.size(); j++){
+                    final float radiusSum = entities.get(i).getRadius() + entities.get(j).getRadius();
+                    final float e1X = entities.get(i).getX();
+                    final float e1Y = entities.get(i).getY();
+                    final float e2X = entities.get(j).getX();
+                    final float e2Y = entities.get(j).getY();
+                    final float distanceNormal = euclideanDistance(e1X, e1Y, e2X, e2Y);
+                    final float distanceTransposed = euclideanDistance(e1X,
+                            e1Y,
+                            e2X - Parameters.borderX,
+                            e2Y - Parameters.borderY);
+                    // Get minimal value, because map is a torus
+                    final float distance = Math.min(distanceNormal, distanceTransposed);
+
+                    // Detect intersection and add both entities to list
+                    if(distance < radiusSum){
+                        // Add to first's entity set
+                        Set<Entity> firstSet = retVal.get(entities.get(i));
+                        if(firstSet == null){
+                            firstSet = new HashSet<>();
+                        }
+                        firstSet.add(entities.get(j));
+                        retVal.put(entities.get(i), firstSet);
+
+                        // Add to second's entity set
+                        Set<Entity> secondSet = retVal.get(entities.get(j));
+                        if(secondSet == null){
+                            secondSet = new HashSet<>();
+                        }
+                        secondSet.add(entities.get(i));
+                        retVal.put(entities.get(j), secondSet);
+                    }
+                }
+            }
+        }
+
+        return retVal;
+    }
+
+    static float euclideanDistance(float x1, float y1, float x2, float y2){
+        final float xDiff = Math.abs(x1 - x2);
+        final float yDiff = Math.abs(y1 - y2);
+        return (float)Math.sqrt(xDiff * xDiff + yDiff * yDiff);
     }
 }

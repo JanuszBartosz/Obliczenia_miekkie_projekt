@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import pl.edu.pwr.EntityAngleTask;
-import pl.edu.pwr.EntityStepTask;
+import pl.edu.pwr.EntityAngleTimer;
+import pl.edu.pwr.EntityStepTimer;
+import pl.edu.pwr.ForwardableTimer;
+import pl.edu.pwr.Timer;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class SoupStage extends Stage {
     private ShapeRenderer shapeRenderer;
@@ -17,13 +18,15 @@ public class SoupStage extends Stage {
 
     private final static long millisecondsPerTick = 10;
     private final static long millisecondsToChangeAngle = 1000;
-    private Timer stepTimer;
-    private Timer angleTimer;
+    private ForwardableTimer stepTimer;
+    private ForwardableTimer angleTimer;
 
     public SoupStage(int width, int height) {
         Entity.setBorders(width, height);
 
         shapeRenderer = new ShapeRenderer();
+
+        Entity mouth = new Entity(0, 0, 0, 0, Color.RED, 3);
 
         entities = new ArrayList<>();
         entities.add(new Entity(200,200,1, 0, Color.BLACK, 10));
@@ -31,13 +34,13 @@ public class SoupStage extends Stage {
         entities.add(new Entity(200,200,1, (float)Math.PI, Color.GREEN, 10));
         entities.add(new Entity(200,200,1, (float)Math.PI * 3 / 2, Color.BLUE, 10));
 
-        stepTimer = new Timer("Step make timer");
-        stepTimer.scheduleAtFixedRate(new EntityStepTask(entities), 0, millisecondsPerTick);
-
-        angleTimer = new Timer("Angle change timer");
-        angleTimer.scheduleAtFixedRate(new EntityAngleTask(entities), millisecondsToChangeAngle, millisecondsToChangeAngle);
-    };
-
+        for(Entity e : entities){
+            e.addRelativeChild(mouth, e.getRadius(), 0);
+        }
+        stepTimer = new EntityStepTimer(entities, millisecondsPerTick, Timer.DURATION_INFINITY);
+        angleTimer = new EntityAngleTimer(entities, millisecondsToChangeAngle, Timer.DURATION_INFINITY);
+        angleTimer.start();
+    }
 
     @Override
     public void draw() {
@@ -53,5 +56,9 @@ public class SoupStage extends Stage {
         shapeRenderer.dispose();
         stepTimer.cancel();
         angleTimer.cancel();
+    }
+
+    public ForwardableTimer getStepTimer() {
+        return stepTimer;
     }
 }
