@@ -4,13 +4,14 @@ import pl.edu.pwr.graphics.Entity;
 
 import java.util.*;
 
-public class EntityStepTask extends TimerTask{
-    public EntityStepTask(ArrayList<Entity> entities){
+public class EntityStepTimer extends ForwardableTimer{
+    public EntityStepTimer(ArrayList<Entity> entities, long interval, long duration){
+        super(interval, duration);
         this.entities = entities;
     }
 
     @Override
-    public void run() {
+    protected void onTick(){
         for(Entity e : entities){
             e.makeStep();
         }
@@ -28,6 +29,11 @@ public class EntityStepTask extends TimerTask{
 
             it.remove(); // avoids a ConcurrentModificationException
         }
+    }
+
+    @Override
+    protected void onFinish(){
+
     }
 
     private ArrayList<Entity> entities;

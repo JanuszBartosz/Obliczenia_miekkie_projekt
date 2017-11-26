@@ -2,6 +2,7 @@ package pl.edu.pwr.graphics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,12 +10,16 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import pl.edu.pwr.ForwardableTimer;
+import pl.edu.pwr.Timer;
 
 public class MenuStage extends Stage {
-    public MenuStage(int width, int height, int midpointX){
+    public MenuStage(int width, int height, int midpointX, ForwardableTimer stepTimer){
         this.width = width;
         this.height = height;
         this.midpointX = midpointX;
+        this.stepTimer = stepTimer;
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
 
@@ -24,21 +29,56 @@ public class MenuStage extends Stage {
         startButton = createButton("START");
         startButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
+        startButton.addListener(new ClickListener(){
+            public void clicked(InputEvent e, float x, float y) {
+                stepTimer.start();
+            }
+        });
 
         pauseButton = createButton("PAUSE");
         pauseButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
+        pauseButton.addListener(new ClickListener(){
+            public void clicked(InputEvent e, float x, float y) {
+                if(stepTimer.isRunning()){
+                    stepTimer.pause();
+                }
+                else {
+                    stepTimer.resume();
+                }
+            }
+        });
 
         stopButton = createButton("STOP");
         stopButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
+        stopButton.addListener(new ClickListener(){
+            public void clicked(InputEvent e, float x, float y) {
+                stepTimer.cancel();
+            }
+        });
 
         jumpButton = createButton("JUMP");
         jumpButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
+        jumpButton.addListener(new ClickListener(){
+            public void clicked(InputEvent e, float x, float y) {
+                stepTimer.jumpTicks(50);
+            }
+        });
 
         fastForwardButton = createButton("FAST FORWARD");
         fastForwardButton.setPosition(xPos, yPos);
+        fastForwardButton.addListener(new ClickListener(){
+            public void clicked(InputEvent e, float x, float y) {
+                if(stepTimer.isFastForwarding()){
+                    stepTimer.stopFastForward();
+                }
+                else{
+                    stepTimer.startFastForward();
+                }
+            }
+        });
 
         this.addActor(startButton);
         this.addActor(pauseButton);
@@ -58,14 +98,17 @@ public class MenuStage extends Stage {
     private TextButton jumpButton;
     private TextButton fastForwardButton;
 
+    private ForwardableTimer stepTimer;
+
     private final static float buttonWidth = 150.0f;
     private final static float buttonHeight = 50.0f;
     private final static float buttonSpacing = 10.0f;
+    private final static Color menuBarColor = new Color(0.949f, 0.949f, 0.949f, 1.0f);
 
     @Override
     public void draw() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.BROWN);
+        shapeRenderer.setColor(menuBarColor);
         shapeRenderer.rect(midpointX, 0, width, height);
         shapeRenderer.end();
         
@@ -92,9 +135,9 @@ public class MenuStage extends Stage {
 
         // Create a texture
         Pixmap pixmap = new Pixmap((int)buttonWidth, (int)buttonHeight, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
+        pixmap.setColor(Color.GRAY);
         pixmap.fill();
-        skin.add("background",new Texture(pixmap));
+        skin.add("background", new Texture(pixmap));
 
         // Create a button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
