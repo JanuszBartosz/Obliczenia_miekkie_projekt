@@ -3,10 +3,15 @@ package pl.edu.pwr.desktop;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import javafx.application.Application;
 import pl.edu.pwr.PrimordialSoup;
+import pl.edu.pwr.menu.InitialMenu;
 
-public class DesktopLauncher {
+import static javafx.application.Application.launch;
+
+public class DesktopLauncher extends InitialMenu{
 	public static void main (String[] arg) {
+		//launch(arg);
 
 		Graphics.DisplayMode[] displayModes = LwjglApplicationConfiguration.getDisplayModes();
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

@@ -17,23 +17,19 @@ public class EntityStepTimer extends ForwardableTimer {
     @Override
     protected void onTick() {
         simulation.simulate();
-//        Map<Entity, Set<Entity>> intersections = Entity.getIntersectedEntities(entities);
-//        Iterator it = intersections.entrySet().iterator();
-//        while (it.hasNext()) {
-//            Map.Entry pair = (Map.Entry)it.next();
-//            System.out.println("Entity: <" + pair.getKey().toString() + "> intersect with: ");
-//
-//            Set<Entity> set = (Set<Entity>)pair.getValue();
-//            for(Entity e : set){
-//                System.out.println(" - {" + e.toString() + "}");
-//            }
-//
-//            it.remove(); // avoids a ConcurrentModificationException
-//        }
     }
 
     @Override
     protected void onFinish() {
+        // Nothing to do
+    }
 
+    @Override
+    protected void onReset() {
+        simulation = new Simulation();
+    }
+
+    public Simulation getSimulation() {
+        return simulation;
     }
 }

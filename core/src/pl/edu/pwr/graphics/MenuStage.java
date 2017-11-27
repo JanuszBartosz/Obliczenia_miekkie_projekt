@@ -19,7 +19,6 @@ public class MenuStage extends Stage {
         this.width = width;
         this.height = height;
         this.midpointX = midpointX;
-        this.stepTimer = stepTimer;
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
 
@@ -69,6 +68,7 @@ public class MenuStage extends Stage {
 
         fastForwardButton = createButton("FAST FORWARD");
         fastForwardButton.setPosition(xPos, yPos);
+        yPos -= buttonHeight + buttonSpacing;
         fastForwardButton.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y) {
                 if(stepTimer.isFastForwarding()){
@@ -80,11 +80,20 @@ public class MenuStage extends Stage {
             }
         });
 
+        resetButton = createButton("RESET");
+        resetButton.setPosition(xPos, yPos);
+        resetButton.addListener(new ClickListener(){
+            public void clicked(InputEvent e, float x, float y) {
+                stepTimer.reset();
+            }
+        });
+
         this.addActor(startButton);
         this.addActor(pauseButton);
         this.addActor(stopButton);
         this.addActor(jumpButton);
         this.addActor(fastForwardButton);
+        this.addActor(resetButton);
     }
 
     private int width;
@@ -97,8 +106,7 @@ public class MenuStage extends Stage {
     private TextButton stopButton;
     private TextButton jumpButton;
     private TextButton fastForwardButton;
-
-    private ForwardableTimer stepTimer;
+    private TextButton resetButton;
 
     private final static float buttonWidth = 150.0f;
     private final static float buttonHeight = 50.0f;
@@ -118,6 +126,7 @@ public class MenuStage extends Stage {
         stopButton.draw(batch, 1.0f);
         jumpButton.draw(batch, 1.0f);
         fastForwardButton.draw(batch, 1.0f);
+        resetButton.draw(batch, 1.0f);
         batch.end();
     }
 

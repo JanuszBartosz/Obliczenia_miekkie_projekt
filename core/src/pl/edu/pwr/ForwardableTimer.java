@@ -57,7 +57,16 @@ public abstract class ForwardableTimer extends Timer {
         return isJumping;
     }
 
-    private void stopJump(){
+    public void reset(){
+        stopJump();
+        stopFastForward();
+        cancel();
+        onReset();
+    }
+
+    protected abstract void onReset();
+
+    protected void stopJump(){
         if(jump != null && jump.isAlive()){
             jump.interrupt();
             jump = null;

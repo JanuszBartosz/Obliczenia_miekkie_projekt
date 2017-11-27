@@ -18,15 +18,13 @@ public class SoupStage extends Stage {
 
     private final static long millisecondsPerTick = 10;
     private final static long millisecondsToChangeAngle = 1000;
-    private ForwardableTimer stepTimer;
-    private Simulation simulation;
+    private EntityStepTimer stepTimer;
 
     public SoupStage(int width, int height) {
         Entity.setBorders(width, height);
 
         shapeRenderer = new ShapeRenderer();
-        this.simulation = new Simulation();
-        stepTimer = new EntityStepTimer(simulation, millisecondsPerTick, Timer.DURATION_INFINITY);
+        stepTimer = new EntityStepTimer(new Simulation(), millisecondsPerTick, Timer.DURATION_INFINITY);
     }
 
     @Override
@@ -34,7 +32,11 @@ public class SoupStage extends Stage {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        simulation.drawAll(shapeRenderer);
+        Simulation simulation = stepTimer.getSimulation();
+        if(simulation != null){
+            simulation.drawAll(shapeRenderer);
+        }
+
         shapeRenderer.end();
     }
 
