@@ -4,7 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import pl.edu.pwr.engine.NeuralNetParams;
 import pl.edu.pwr.engine.model.FeedforwardNeuralNet;
 import pl.edu.pwr.engine.model.NeuralNet;
+import pl.edu.pwr.engine.training.Genotype;
 import pl.edu.pwr.graphics.Entity;
+
+import java.util.List;
 
 public class Animal extends Entity {
 
@@ -21,6 +24,12 @@ public class Animal extends Entity {
                 neuralNetParams.numberOutputs);
     }
 
+
+    public Animal(float x, float y, float speed, float angle, Color color, float radius, List<double[][]> weights) {
+        super(x, y, speed, angle, color, radius);
+        this.neuralNet = new FeedforwardNeuralNet(weights);
+    }
+
     private void calculateSpeedAndAngle(double[] inputs) {
         double[] outputs = neuralNet.computeOutputs(inputs);
         this.angle = outputs[0] > outputs[1] ? angle + (float) outputs[0] * Entity.maxAngle : angle - (float) outputs[1] * Entity.maxAngle;
@@ -28,7 +37,7 @@ public class Animal extends Entity {
     }
 
     @Override
-    public void makeStep(){
+    public void makeStep() {
         calculateSpeedAndAngle(nextInputs);
         super.makeStep();
     }
@@ -36,5 +45,10 @@ public class Animal extends Entity {
     @Override
     public void setNextInputs(double[] nextInputs) {
         this.nextInputs = nextInputs;
+    }
+
+    @Override
+    public Genotype mapToGenotype() {
+        return new Genotype(fitness, neuralNet.getWeights());
     }
 }

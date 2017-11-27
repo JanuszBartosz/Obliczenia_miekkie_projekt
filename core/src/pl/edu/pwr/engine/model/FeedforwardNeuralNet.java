@@ -30,6 +30,13 @@ public class FeedforwardNeuralNet implements NeuralNet {
         neuronLayers.add(createRandomRealMatrix(numberOutputs, numberNeuronsPerLayer));
     }
 
+    public FeedforwardNeuralNet(List<double[][]> chromosomes){
+        this.neuronLayers = new ArrayList<>();
+        for (double[][] chromosome : chromosomes) {
+            neuronLayers.add(new Array2DRowRealMatrix(chromosome));
+        }
+    }
+
     @Override
     public double[] computeOutputs(double[] inputs) {
 

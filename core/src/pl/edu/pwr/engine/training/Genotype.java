@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Genotype implements Comparable<Genotype> {
 
+    final static Comparator<Genotype> DESCENDING_COMPARATOR = Comparator.reverseOrder();
     private int fitness;
     private List<double[][]> chromosomes;
 
@@ -31,6 +32,4 @@ public class Genotype implements Comparable<Genotype> {
 
         return Integer.compare(this.fitness, other.fitness);
     }
-
-    final static Comparator<Genotype> DESCENDING_COMPARATOR = Comparator.reverseOrder();
 }

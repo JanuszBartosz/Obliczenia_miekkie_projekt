@@ -15,17 +15,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PrimordialSoup extends ApplicationAdapter {
-	public PrimordialSoup(int width, int height){
-		this.width = width;
-		this.height = height;
-	}
-
 	private final static int sideBarWidth = 200;
-
 	private int width;
 	private int height;
 	private SoupStage soupStage;
 	private MenuStage menuStage;
+	public PrimordialSoup(int width, int height){
+		this.width = width;
+		this.height = height;
+	}
 
 	@Override
 	public void create () {
