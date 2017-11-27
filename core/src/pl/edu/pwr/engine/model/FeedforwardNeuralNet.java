@@ -4,6 +4,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import pl.edu.pwr.engine.Parameters;
 import pl.edu.pwr.engine.model.activation.SigmoidBipolar;
+import pl.edu.pwr.engine.model.activation.SigmoidUnipolar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +35,8 @@ public class FeedforwardNeuralNet implements NeuralNet {
 
         double[] outputs = null;
 
-        for (RealMatrix neuronLayer : neuronLayers) {
+        for (int i = 0; i < neuronLayers.size(); i++) {
+            RealMatrix neuronLayer = neuronLayers.get(i);
             outputs = neuronLayer.operate(inputs);
             outputs = Arrays.stream(outputs).map(new SigmoidBipolar()).toArray();
             inputs = outputs;

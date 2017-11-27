@@ -33,14 +33,14 @@ public class Simulation {
 
         for (Entity herbivore : herbivores) {
             herbivoresMouth.add(herbivore.addRelativeChild(mouth, herbivore.getRadius(), 0));
-            herbivore.addRelativeChild(leftEye, herbivore.getRadius(), (float) (1.0/4.0*Math.PI));
-            herbivore.addRelativeChild(rightEye, herbivore.getRadius(), (float) (-1.0/4.0*Math.PI));
+            herbivore.addRelativeChild(leftEye, herbivore.getRadius(), (float) (1.0 / 4.0 * Math.PI));
+            herbivore.addRelativeChild(rightEye, herbivore.getRadius(), (float) (-1.0 / 4.0 * Math.PI));
         }
 
         for (Entity carnivore : carnivores) {
             carnivoresMouth.add(carnivore.addRelativeChild(mouth, carnivore.getRadius(), 0));
-            carnivore.addRelativeChild(leftEye, carnivore.getRadius(), (float) (1.0/4.0*Math.PI));
-            carnivore.addRelativeChild(rightEye, carnivore.getRadius(), (float) (-1.0/4.0*Math.PI));
+            carnivore.addRelativeChild(leftEye, carnivore.getRadius(), (float) (1.0 / 4.0 * Math.PI));
+            carnivore.addRelativeChild(rightEye, carnivore.getRadius(), (float) (-1.0 / 4.0 * Math.PI));
         }
 
         herbivores.forEach(Entity::calculateChildrenPositions);
@@ -87,18 +87,23 @@ public class Simulation {
 
         for (Entity carnivore : carnivores) {
             Entity nearestHerbivore = findNearestEntity(carnivore, herbivores);
-            double [] inputs = new double[2];
+            double[] inputs = new double[2];
             RelativeEntity leftEye = carnivore.getChildren().get(1);
             RelativeEntity rightEye = carnivore.getChildren().get(2);
-            inputs[0] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
-            inputs[1] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
+            if (nearestHerbivore != null) {
+                inputs[0] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
+                inputs[1] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
+            }else{
+                inputs[0] = 0;
+                inputs[1] = 0;
+            }
             carnivore.setNextInputs(inputs);
         }
 
         for (Entity herbivore : herbivores) {
             Entity nearestPlant = findNearestEntity(herbivore, plants);
             Entity nearestCarnivore = findNearestEntity(herbivore, carnivores);
-            double [] inputs = new double[4];
+            double[] inputs = new double[4];
             RelativeEntity leftEye = herbivore.getChildren().get(1);
             RelativeEntity rightEye = herbivore.getChildren().get(2);
             inputs[0] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestPlant.getX(), nearestPlant.getY());
@@ -134,7 +139,7 @@ public class Simulation {
         return closestEntity;
     }
 
-    public synchronized void drawAll(ShapeRenderer shapeRenderer){
+    public synchronized void drawAll(ShapeRenderer shapeRenderer) {
 
         for (Entity plant : plants) {
             plant.draw(shapeRenderer);
