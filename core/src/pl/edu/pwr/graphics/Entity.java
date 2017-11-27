@@ -260,13 +260,8 @@ public class Entity {
                     final float e1Y = intersector.getY();
                     final float e2X = intersectee.getX();
                     final float e2Y = intersectee.getY();
-                    final float distanceNormal = euclideanDistance(e1X, e1Y, e2X, e2Y);
-                    final float distanceTransposed = euclideanDistance(e1X,
-                            e1Y,
-                            e2X - Parameters.borderX,
-                            e2Y - Parameters.borderY);
-                    // Get minimal value, because map is a torus
-                    final float distance = Math.min(distanceNormal, distanceTransposed);
+
+                    final float distance = getDistanceOnTorus(e1X, e1Y, e2X, e2Y);
 
                     // Detect intersection and add entry only to intersectors
                     if(distance < radiusSum){
@@ -288,5 +283,12 @@ public class Entity {
         final float xDiff = Math.abs(x1 - x2);
         final float yDiff = Math.abs(y1 - y2);
         return (float)Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    }
+
+    public static float getDistanceOnTorus(float x1, float y1, float x2, float y2){
+        final float distanceNormal = euclideanDistance(x1, y1, x2, y2);
+        final float distanceTransposed = euclideanDistance(x1, y1,x2 - Parameters.borderX,y2 - Parameters.borderY);
+        // Get minimal value, because map is a torus
+        return Math.min(distanceNormal, distanceTransposed);
     }
 }
