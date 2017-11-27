@@ -4,6 +4,7 @@ import pl.edu.pwr.engine.NeuralNetParams;
 import pl.edu.pwr.engine.Parameters;
 import pl.edu.pwr.graphics.Entity;
 
+import java.util.List;
 import java.util.Random;
 
 public class EntityFactory {
@@ -39,6 +40,33 @@ public class EntityFactory {
                         Parameters.carnivoreColor,
                         Parameters.carnivoreRadius,
                         new NeuralNetParams(1, 10, 2, 3));
+            }
+        }
+        return null;
+    }
+
+    public static Entity getEntity(EntityType type, List<double[][]> weights) {
+
+        switch (type) {
+            case HERBIVORE: {
+                return new Animal(
+                        random.nextFloat() * Parameters.borderX,
+                        random.nextFloat() * Parameters.borderY,
+                        0,
+                        0,
+                        Parameters.herbivoreColor,
+                        Parameters.herbivoreRadius,
+                        weights);
+            }
+            case CARNIVORE: {
+                return new Animal(
+                        random.nextFloat() * Parameters.borderX,
+                        random.nextFloat() * Parameters.borderY,
+                        0,
+                        0,
+                        Parameters.carnivoreColor,
+                        Parameters.carnivoreRadius,
+                        weights);
             }
         }
         return null;

@@ -3,6 +3,7 @@ package pl.edu.pwr.graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import pl.edu.pwr.engine.Parameters;
+import pl.edu.pwr.engine.training.Genotype;
 
 import java.util.*;
 
@@ -24,7 +25,7 @@ public class Entity {
 
     private ArrayList<RelativeEntity> children;
 
-    protected int foundFood;
+    protected int fitness;
 
     // ===== PUBLIC =====
     public Entity(float x, float y, float speed, float angle, Color color, float radius) {
@@ -89,6 +90,7 @@ public class Entity {
     public void setNextInputs(double[] inputs) {
     }
 
+    public Genotype mapToGenotype(){return null;}
 
     public float getSpeed() {
         return speed;
@@ -122,7 +124,7 @@ public class Entity {
     }
 
     public void incrementFoundFood(int size) {
-        foundFood+=size;
+        fitness +=size;
     }
 
     public Color getColor() {

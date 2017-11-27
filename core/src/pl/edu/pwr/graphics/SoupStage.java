@@ -22,7 +22,7 @@ public class SoupStage extends Stage {
         Entity.setBorders(width, height);
 
         shapeRenderer = new ShapeRenderer();
-        stepTimer = new EntityStepTimer(new Simulation(), millisecondsPerTick, Timer.DURATION_INFINITY);
+        stepTimer = new EntityStepTimer(new Simulation(), millisecondsPerTick, 120000);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class SoupStage extends Stage {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         Simulation simulation = stepTimer.getSimulation();
-        if(simulation != null){
+        if (simulation != null) {
             simulation.drawAll(shapeRenderer);
         }
 
