@@ -27,6 +27,7 @@ public class EntityStepTimer extends ForwardableTimer {
     @Override
     protected void onReset() {
         simulation = new Simulation();
+        start();
     }
 
     public Simulation getSimulation() {

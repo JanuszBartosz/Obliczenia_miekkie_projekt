@@ -14,10 +14,8 @@ import java.util.ArrayList;
 public class SoupStage extends Stage {
 
     private ShapeRenderer shapeRenderer;
-    private ArrayList<Entity> entities;
 
     private final static long millisecondsPerTick = 10;
-    private final static long millisecondsToChangeAngle = 1000;
     private EntityStepTimer stepTimer;
 
     public SoupStage(int width, int height) {
