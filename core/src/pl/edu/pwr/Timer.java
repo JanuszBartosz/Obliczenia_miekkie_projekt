@@ -56,7 +56,7 @@ public abstract class Timer {
      * Starts the timer. If the timer was already running, this call is ignored.
      */
     public void start() {
-        if (isRunning)
+        if (isStarted)
             return;
         isStarted = true;
         isRunning = true;
@@ -78,7 +78,11 @@ public abstract class Timer {
      * Resumes the timer if it was paused, else starts the timer.
      */
     public void resume() {
-        this.start();
+        if (!isStarted || isRunning)
+            return;
+        isRunning = true;
+        tickThread = new TimerThread();
+        future = execService.scheduleWithFixedDelay(tickThread, 0, this.interval, TimeUnit.MILLISECONDS);
     }
 
 
