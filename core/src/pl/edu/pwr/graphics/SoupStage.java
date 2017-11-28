@@ -44,7 +44,7 @@ public class SoupStage extends Stage {
         stepTimer.cancel();
     }
 
-    public ForwardableTimer getStepTimer() {
+    public EntityStepTimer getStepTimer() {
         return stepTimer;
     }
 }

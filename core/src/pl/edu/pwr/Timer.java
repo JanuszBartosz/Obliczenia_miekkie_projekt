@@ -20,7 +20,9 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class Timer {
     public static final int DURATION_INFINITY = -1;
+    private volatile boolean isStarted = false;
     private volatile boolean isRunning = false;
+
     private long interval;
     private long elapsedTime;
     private long duration;
@@ -28,7 +30,7 @@ public abstract class Timer {
             .newSingleThreadScheduledExecutor();
     private Future<?> future = null;
     private TimerThread tickThread = null;
-    private boolean isStarted = false;
+
 
     /**
      * Default constructor which sets the interval to 1000 ms (1s) and the
@@ -91,6 +93,8 @@ public abstract class Timer {
      */
     protected abstract void onFinish();
 
+    protected abstract void onPreFinish();
+
     /**
      * Stops the timer. If the timer is not running, then this call does nothing.
      */
@@ -135,6 +139,10 @@ public abstract class Timer {
         return isRunning;
     }
 
+    public boolean isStarted() {
+        return isStarted;
+    }
+
     private class TimerThread implements Runnable{
         @Override
         public void run() {
@@ -143,6 +151,7 @@ public abstract class Timer {
             if (duration > 0) {
                 if(elapsedTime >=duration){
                     cancel();
+                    onPreFinish();
                     onFinish();
                 }
             }

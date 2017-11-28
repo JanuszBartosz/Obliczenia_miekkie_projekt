@@ -11,11 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import pl.edu.pwr.EntityStepTimer;
 import pl.edu.pwr.ForwardableTimer;
 import pl.edu.pwr.Timer;
 
 public class MenuStage extends Stage {
-    public MenuStage(int width, int height, int midpointX, ForwardableTimer stepTimer){
+    public MenuStage(int width, int height, int midpointX, EntityStepTimer stepTimer){
         this.width = width;
         this.height = height;
         this.midpointX = midpointX;
@@ -62,7 +63,9 @@ public class MenuStage extends Stage {
         yPos -= buttonHeight + buttonSpacing;
         jumpButton.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y) {
-                stepTimer.jumpTicks(50);
+                stepTimer.fastForwardOnFinish = false;
+                stepTimer.startFastForward();
+
             }
         });
 
@@ -72,9 +75,11 @@ public class MenuStage extends Stage {
         fastForwardButton.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y) {
                 if(stepTimer.isFastForwarding()){
+                    stepTimer.fastForwardOnFinish = false;
                     stepTimer.stopFastForward();
                 }
                 else{
+                    stepTimer.fastForwardOnFinish = true;
                     stepTimer.startFastForward();
                 }
             }

@@ -26,18 +26,20 @@ public abstract class ForwardableTimer extends Timer {
         }
     }
 
+    protected void stopJump(){
+        if(jump != null && jump.isAlive()){
+            jump.interrupt();
+            jump = null;
+        }
+    }
+
     public void startFastForward(){
         stopFastForward();
         stopJump();
-        isFastForwarding = true;
-        boolean wasRunning = isRunning();
+        wasRunning = isRunning();
         pause();
 
         fastForward = new FastForwardThread();
-
-        if(wasRunning){
-            resume();
-        }
         fastForward.start();
     }
 
@@ -45,12 +47,16 @@ public abstract class ForwardableTimer extends Timer {
         if(fastForward != null && fastForward.isAlive()){
             fastForward.interrupt();
             fastForward = null;
-            isFastForwarding = false;
+        }
+
+        if(wasRunning){
+            wasRunning = false;
+            resume();
         }
     }
 
     public boolean isFastForwarding(){
-        return isFastForwarding;
+        return fastForward != null && fastForward.isAlive();
     }
 
     public boolean isJumping(){
@@ -64,21 +70,24 @@ public abstract class ForwardableTimer extends Timer {
         onReset();
     }
 
-    protected abstract void onReset();
-
-    protected void stopJump(){
-        if(jump != null && jump.isAlive()){
-            jump.interrupt();
-            jump = null;
-        }
+    @Override
+    protected void onPreFinish() {
+        // Cleanup
+        System.out.println("onPreFinish()");
+        stopJump();
+        stopFastForward();
     }
+
+    protected abstract void onReset();
 
     private Thread fastForward;
     private Thread jump;
     private boolean isJumping;
-    private boolean isFastForwarding;
+    private boolean wasRunning;
 
     private class JumpThread extends Thread{
+        private final static long TICKS_TO_JUMP = 1;
+
         public JumpThread(long ticks){
             this.ticks = ticks;
             continueJumping = true;
@@ -86,8 +95,8 @@ public abstract class ForwardableTimer extends Timer {
 
         @Override
         public void run(){
-            for (long i = 0; i < ticks && continueJumping; i++){
-                onTick();
+            for (long i = 0; i < ticks && continueJumping && isStarted(); i++){
+                executeTicks(TICKS_TO_JUMP);
             }
         }
 
@@ -101,14 +110,16 @@ public abstract class ForwardableTimer extends Timer {
     }
 
     private class FastForwardThread extends Thread{
+        private final static long TICKS_TO_FORWARD = 1;
+
         public FastForwardThread(){
             continueFastForward = true;
         }
 
         @Override
         public void run(){
-            while(continueFastForward){
-                executeTicks(1);
+            while(continueFastForward && isStarted()){
+                executeTicks(TICKS_TO_FORWARD);
             }
         }
 
