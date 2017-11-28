@@ -142,8 +142,8 @@ public abstract class Timer {
             elapsedTime += Timer.this.interval;
             if (duration > 0) {
                 if(elapsedTime >=duration){
-                    onFinish();
                     cancel();
+                    onFinish();
                 }
             }
         }
