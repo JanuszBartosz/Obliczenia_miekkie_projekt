@@ -38,6 +38,7 @@ public class DesktopLauncher extends Application{
 			config.setFromDisplayMode(displayMode);
 			config.fullscreen = fullscreenCB.isSelected();
 		}
+		config.samples = 8;
 
 		new LwjglApplication(new PrimordialSoup(config.width, config.height), config);
 	}
