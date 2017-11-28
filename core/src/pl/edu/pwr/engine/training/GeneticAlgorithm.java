@@ -12,6 +12,10 @@ public class GeneticAlgorithm {
 
     private List<Genotype> population;
 
+    public GeneticAlgorithm(List<Genotype> population) {
+        this.population = population;
+    }
+
     public List<List<double[][]>> run() {
 
         return this
@@ -36,7 +40,7 @@ public class GeneticAlgorithm {
                     .sorted(Genotype.DESCENDING_COMPARATOR)
                     .findFirst()
                     .orElse(null);
-            newPopulation.set(i, tournamentWinner);
+            newPopulation.add(tournamentWinner);
         }
         assert (!newPopulation.contains(null));
         this.population = newPopulation;
@@ -46,7 +50,7 @@ public class GeneticAlgorithm {
     private GeneticAlgorithm performCrossover() {
 
         int populationSize = population.size();
-        List<Genotype> newPopulation = new ArrayList<>();
+        List<Genotype> newPopulation = new ArrayList<>(populationSize);
 
         List<Integer> indexes = IntStream.range(0, population.size()).boxed().collect(Collectors.toList());
         Collections.shuffle(indexes);

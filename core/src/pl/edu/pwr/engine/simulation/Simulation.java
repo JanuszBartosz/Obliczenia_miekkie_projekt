@@ -3,6 +3,7 @@ package pl.edu.pwr.engine.simulation;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import pl.edu.pwr.engine.Parameters;
+import pl.edu.pwr.engine.training.Genotype;
 import pl.edu.pwr.graphics.Entity;
 import pl.edu.pwr.graphics.RelativeEntity;
 
@@ -45,6 +46,42 @@ public class Simulation {
 
         herbivores.forEach(Entity::calculateChildrenPositions);
         carnivores.forEach(Entity::calculateChildrenPositions);
+    }
+
+    public Simulation(List<Entity> herbivores, List<Entity> carnivores) {
+        this.plants = Stream.generate(() -> EntityFactory.getEntity(EntityType.PLANT)).limit(Parameters.numberPlants).collect(Collectors.toList());
+        this.herbivores = herbivores;
+        this.carnivores = carnivores;
+        this.deadHerbivores = new ArrayList<>();
+        this.herbivoresMouth = new ArrayList<>();
+        this.carnivoresMouth = new ArrayList<>();
+
+        Entity mouth = new Entity(0, 0, 0, 0, Color.BLACK, 3);
+        Entity leftEye = new Entity(0, 0, 0, 0, Color.BROWN, 2);
+        Entity rightEye = new Entity(0, 0, 0, 0, Color.BROWN, 2);
+
+        for (Entity herbivore : herbivores) {
+            herbivoresMouth.add(herbivore.addRelativeChild(mouth, herbivore.getRadius(), 0));
+            herbivore.addRelativeChild(leftEye, herbivore.getRadius(), (float) (1.0 / 4.0 * Math.PI));
+            herbivore.addRelativeChild(rightEye, herbivore.getRadius(), (float) (-1.0 / 4.0 * Math.PI));
+        }
+
+        for (Entity carnivore : carnivores) {
+            carnivoresMouth.add(carnivore.addRelativeChild(mouth, carnivore.getRadius(), 0));
+            carnivore.addRelativeChild(leftEye, carnivore.getRadius(), (float) (1.0 / 4.0 * Math.PI));
+            carnivore.addRelativeChild(rightEye, carnivore.getRadius(), (float) (-1.0 / 4.0 * Math.PI));
+        }
+
+        herbivores.forEach(Entity::calculateChildrenPositions);
+        carnivores.forEach(Entity::calculateChildrenPositions);
+    }
+
+    public List<Genotype> getHerbivoresGenotypes() {
+        return Stream.concat(herbivores.stream(), deadHerbivores.stream()).map(Entity::mapToGenotype).collect(Collectors.toList());
+    }
+
+    public List<Genotype> getCarnivoresGenotypes() {
+        return carnivores.stream().map(Entity::mapToGenotype).collect(Collectors.toList());
     }
 
     public synchronized void simulate() {
@@ -93,7 +130,7 @@ public class Simulation {
             if (nearestHerbivore != null) {
                 inputs[0] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
                 inputs[1] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
-            }else{
+            } else {
                 inputs[0] = 0;
                 inputs[1] = 0;
             }
