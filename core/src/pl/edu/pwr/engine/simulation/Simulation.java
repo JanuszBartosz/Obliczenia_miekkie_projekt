@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Simulation {
-
     List<Entity> plants;
     List<Entity> herbivores;
     List<Entity> herbivoresMouth;
@@ -177,7 +176,6 @@ public class Simulation {
     }
 
     public synchronized void drawAll(ShapeRenderer shapeRenderer) {
-
         for (Entity plant : plants) {
             plant.draw(shapeRenderer);
         }

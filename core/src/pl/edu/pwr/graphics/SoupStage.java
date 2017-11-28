@@ -27,15 +27,17 @@ public class SoupStage extends Stage {
 
     @Override
     public void draw() {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        Simulation simulation = stepTimer.getSimulation();
-        if (simulation != null) {
-            simulation.drawAll(shapeRenderer);
-        }
+        if(!stepTimer.isFastForwarding()) {
+            Gdx.gl.glClearColor(1, 1, 1, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            Simulation simulation = stepTimer.getSimulation();
+            if (simulation != null) {
+                simulation.drawAll(shapeRenderer);
+            }
 
-        shapeRenderer.end();
+            shapeRenderer.end();
+        }
     }
 
     @Override
