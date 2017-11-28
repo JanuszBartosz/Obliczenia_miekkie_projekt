@@ -108,7 +108,7 @@ public abstract class ForwardableTimer extends Timer {
         @Override
         public void run(){
             while(continueFastForward){
-                onTick();
+                executeTicks(1);
             }
         }
 

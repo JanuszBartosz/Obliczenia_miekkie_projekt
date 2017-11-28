@@ -27,6 +27,8 @@ public abstract class Timer {
     private ScheduledExecutorService execService = Executors
             .newSingleThreadScheduledExecutor();
     private Future<?> future = null;
+    private TimerThread tickThread = null;
+    private boolean isStarted = false;
 
     /**
      * Default constructor which sets the interval to 1000 ms (1s) and the
@@ -54,21 +56,10 @@ public abstract class Timer {
     public void start() {
         if (isRunning)
             return;
-
+        isStarted = true;
         isRunning = true;
-        future = execService.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                onTick();
-                elapsedTime += Timer.this.interval;
-                if (duration > 0) {
-                    if(elapsedTime >=duration){
-                        onFinish();
-                        future.cancel(false);
-                    }
-                }
-            }
-        }, 0, this.interval, TimeUnit.MILLISECONDS);
+        tickThread = new TimerThread();
+        future = execService.scheduleWithFixedDelay(tickThread, 0, this.interval, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -104,6 +95,7 @@ public abstract class Timer {
      * Stops the timer. If the timer is not running, then this call does nothing.
      */
     public void cancel() {
+        isStarted = false;
         pause();
         this.elapsedTime = 0;
     }
@@ -128,10 +120,32 @@ public abstract class Timer {
         }
     }
 
+    protected void executeTicks(long ticks){
+        if(tickThread != null) {
+            for (long i = 0; i < ticks && isStarted; i++) {
+                tickThread.run();
+            }
+        }
+    }
+
     /**
      * @return true if the timer is currently running, and false otherwise.
      */
     public boolean isRunning() {
         return isRunning;
+    }
+
+    private class TimerThread implements Runnable{
+        @Override
+        public void run() {
+            onTick();
+            elapsedTime += Timer.this.interval;
+            if (duration > 0) {
+                if(elapsedTime >=duration){
+                    onFinish();
+                    cancel();
+                }
+            }
+        }
     }
 }
