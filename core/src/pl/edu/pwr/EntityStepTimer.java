@@ -23,7 +23,10 @@ public class EntityStepTimer extends ForwardableTimer {
 
     @Override
     protected void onTick() {
-        simulation.simulate();
+        if(!simulation.simulate()){
+            cancel();
+            onFinish();
+        }
     }
 
     @Override

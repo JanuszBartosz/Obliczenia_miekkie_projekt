@@ -83,8 +83,8 @@ public class Simulation {
         return carnivores.stream().map(Entity::mapToGenotype).collect(Collectors.toList());
     }
 
-    public synchronized void simulate() {
-
+    public synchronized boolean simulate() {
+        boolean retVal = true;
         Set<Entity> plantsToRemove = new HashSet<>();
 
         Map<Entity, Set<Entity>> intersectedPlants = Entity.getIntersectedEntities(herbivoresMouth, plants);
@@ -132,6 +132,9 @@ public class Simulation {
             } else {
                 inputs[0] = 0;
                 inputs[1] = 0;
+
+                System.out.println("Returning from simulation due to no herbivores");
+                retVal = false;
             }
             carnivore.setNextInputs(inputs);
         }
@@ -156,6 +159,8 @@ public class Simulation {
         for (Entity herbivore : herbivores) {
             herbivore.makeStep();
         }
+
+        return retVal;
     }
 
     public Entity findNearestEntity(Entity entity, List<Entity> entities) {
