@@ -16,7 +16,7 @@ public class Parameters {
 
     public static int numberPlants = 40;
     public static int numberHerbivores = 30;
-    public static int numberCarnivores = 20;
+    public static int numberCarnivores = 15;
 
     public static int networkLayers = 4;
     public static int neuronsPerLayer = 4;
