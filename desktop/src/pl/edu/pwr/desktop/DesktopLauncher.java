@@ -48,18 +48,15 @@ public class DesktopLauncher extends Application{
 		primaryStage.setTitle("Primordial Soup setup");
 		ObservableList<Graphics.DisplayMode> options =
 				FXCollections.observableList(Arrays.asList(LwjglApplicationConfiguration.getDisplayModes()));
-		options.sort(new Comparator<Graphics.DisplayMode>() {
-			@Override
-			public int compare(Graphics.DisplayMode o1, Graphics.DisplayMode o2) {
-				if(o1.width > o2.width) {
-					return -1;
-				}
-				if(o1.width  < o2.width) {
-					return 1;
-				}
-				return 0;
-			}
-		});
+		options.sort((o1, o2) -> {
+            if(o1.width > o2.width) {
+                return -1;
+            }
+            if(o1.width  < o2.width) {
+                return 1;
+            }
+            return 0;
+        });
 		displayModeCB = new ComboBox(options);
 		displayModeCB.setValue(options.get(0));
 

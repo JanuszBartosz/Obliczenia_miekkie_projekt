@@ -4,8 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Parameters {
 
-    public static double randomMatrixLowerBound = -0.3d;
-    public static double randomMatrixUpperBound = 0.3d;
+
+    public static double randomMatrixLowerBound = -0.5d;
+    public static double randomMatrixUpperBound = 0.5d;
 
     public static int tournamentSize = 3;
     public static int tournamentWinners = 1;
@@ -22,6 +23,7 @@ public class Parameters {
     // Board borders
     public static float borderX;
     public static float borderY;
+    public static double maxDistance;
     public static Color plantsColor = Color.GREEN;
     public static float plantsRadius = 5;
     public static Color herbivoreColor = Color.BLUE;
@@ -30,4 +32,8 @@ public class Parameters {
 
     public static Color carnivoreColor = Color.RED;
     public static float carnivoreRadius = 12;
+
+    public final static float maxMoveAngle = (float) (1.0 / 2.0 * Math.PI);
+
+    public final static float maxSpeed = 2;
 }

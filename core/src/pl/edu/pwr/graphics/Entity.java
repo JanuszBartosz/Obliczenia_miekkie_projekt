@@ -11,7 +11,6 @@ public class Entity {
 
     // ===== PRIVATE =====
     protected final static float maxAngle = 2 * (float) Math.PI;
-    protected final static float maxSpeed = 2;
     // Current entity position and speed
     protected float speed;
     // Facing angle of entity in radians, counterclockwise
@@ -45,6 +44,7 @@ public class Entity {
 
         Parameters.borderX = x;
         Parameters.borderY = y;
+        Parameters.maxDistance = Math.sqrt(Parameters.borderX * Parameters.borderX + Parameters.borderY * Parameters.borderY);
     }
 
     public static void draw(ShapeRenderer shapeRenderer, ArrayList<Entity> entities) {

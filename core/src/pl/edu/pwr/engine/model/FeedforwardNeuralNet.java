@@ -30,7 +30,7 @@ public class FeedforwardNeuralNet implements NeuralNet {
         neuronLayers.add(createRandomRealMatrix(numberOutputs, numberNeuronsPerLayer));
     }
 
-    public FeedforwardNeuralNet(List<double[][]> chromosomes){
+    public FeedforwardNeuralNet(List<double[][]> chromosomes) {
         this.neuronLayers = new ArrayList<>();
         for (double[][] chromosome : chromosomes) {
             neuronLayers.add(new Array2DRowRealMatrix(chromosome));
@@ -42,7 +42,8 @@ public class FeedforwardNeuralNet implements NeuralNet {
 
         double[] outputs = null;
 
-        for (RealMatrix neuronLayer : neuronLayers) {
+        for (int i = 0; i < neuronLayers.size(); i++) {
+            RealMatrix neuronLayer = neuronLayers.get(i);
             outputs = neuronLayer.operate(inputs);
             outputs = Arrays.stream(outputs).map(new SigmoidBipolar()).toArray();
             inputs = outputs;

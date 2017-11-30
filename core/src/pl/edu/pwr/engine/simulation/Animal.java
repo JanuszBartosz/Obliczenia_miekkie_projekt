@@ -2,6 +2,7 @@ package pl.edu.pwr.engine.simulation;
 
 import com.badlogic.gdx.graphics.Color;
 import pl.edu.pwr.engine.NeuralNetParams;
+import pl.edu.pwr.engine.Parameters;
 import pl.edu.pwr.engine.model.FeedforwardNeuralNet;
 import pl.edu.pwr.engine.model.NeuralNet;
 import pl.edu.pwr.engine.training.Genotype;
@@ -31,9 +32,21 @@ public class Animal extends Entity {
     }
 
     private void calculateSpeedAndAngle(double[] inputs) {
+
         double[] outputs = neuralNet.computeOutputs(inputs);
-        this.angle = outputs[0] > outputs[1] ? angle + (float) outputs[0] * Entity.maxAngle : angle - (float) outputs[1] * Entity.maxAngle;
-        this.speed = (float) outputs[2] * Entity.maxSpeed;
+        if (outputs[0] > outputs[1]) {
+            this.angle = angle + (float) outputs[0] * Parameters.maxMoveAngle;
+        } else {
+            this.angle = angle - (float) outputs[1] * Parameters.maxMoveAngle;
+        }
+        this.speed = Math.abs((float) outputs[2]) * Parameters.maxSpeed;
+    }
+
+    private double[] normalize(double[] inputs) {
+        for (int i = 0; i < inputs.length; i++) {
+            inputs[i] /= Parameters.maxDistance;
+        }
+        return inputs;
     }
 
     @Override

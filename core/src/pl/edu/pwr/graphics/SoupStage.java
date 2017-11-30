@@ -15,7 +15,7 @@ public class SoupStage extends Stage {
 
     private ShapeRenderer shapeRenderer;
 
-    private final static long millisecondsPerTick = 10;
+    private final static long millisecondsPerTick = 20;
     private EntityStepTimer stepTimer;
 
     public SoupStage(int width, int height) {
