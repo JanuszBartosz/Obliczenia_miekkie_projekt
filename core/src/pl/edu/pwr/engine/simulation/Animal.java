@@ -33,7 +33,7 @@ public class Animal extends Entity {
 
     private void calculateSpeedAndAngle(double[] inputs) {
 
-        double[] outputs = neuralNet.computeOutputs(inputs);
+        double[] outputs = neuralNet.computeOutputs(normalize(inputs));
         if (outputs[0] > outputs[1]) {
             this.angle = angle + (float) outputs[0] * Parameters.maxMoveAngle;
         } else {
@@ -44,7 +44,7 @@ public class Animal extends Entity {
 
     private double[] normalize(double[] inputs) {
         for (int i = 0; i < inputs.length; i++) {
-            inputs[i] /= Parameters.maxDistance;
+            inputs[i] /= Parameters.maxDistance / 100;
         }
         return inputs;
     }

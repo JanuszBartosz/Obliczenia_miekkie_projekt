@@ -25,7 +25,7 @@ public class Parameters {
     public static float borderY;
     public static double maxDistance;
     public static Color plantsColor = Color.GREEN;
-    public static float plantsRadius = 5;
+    public static float plantsRadius = 8;
     public static Color herbivoreColor = Color.BLUE;
     public static float herbivoreRadius = 10;
 
