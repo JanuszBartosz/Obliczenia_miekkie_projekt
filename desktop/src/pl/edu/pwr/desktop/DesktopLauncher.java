@@ -7,23 +7,27 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import pl.edu.pwr.PrimordialSoup;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class DesktopLauncher extends Application{
-	private static ComboBox displayModeCB;
-	private static CheckBox fullscreenCB;
+	private Parent root = null;
+
 	private static boolean proceed = false;
+	private static Graphics.DisplayMode displayMode;
+	private static boolean fullscreen = false;
 
 	public static void main (String[] arg) {
 		launch(arg);
@@ -31,12 +35,10 @@ public class DesktopLauncher extends Application{
 			return;
 		}
 
-		Graphics.DisplayMode displayMode = (Graphics.DisplayMode)displayModeCB.getValue();
-
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		if(displayMode != null) {
 			config.setFromDisplayMode(displayMode);
-			config.fullscreen = fullscreenCB.isSelected();
+			config.fullscreen = fullscreen;
 		}
 		config.samples = 8;
 
@@ -45,55 +47,27 @@ public class DesktopLauncher extends Application{
 
 	@Override
 	public void start(final Stage primaryStage) {
-		primaryStage.setTitle("Primordial Soup setup");
-		ObservableList<Graphics.DisplayMode> options =
-				FXCollections.observableList(Arrays.asList(LwjglApplicationConfiguration.getDisplayModes()));
-		options.sort((o1, o2) -> {
-            if(o1.width > o2.width) {
-                return -1;
-            }
-            if(o1.width  < o2.width) {
-                return 1;
-            }
-            return 0;
-        });
-		displayModeCB = new ComboBox(options);
-		displayModeCB.setValue(options.get(0));
-
-		fullscreenCB = new CheckBox();
-		fullscreenCB.setText("Fullscreen");
-		fullscreenCB.setSelected(false);
-
-		Button btn = new Button();
-		btn.setAlignment(Pos.BOTTOM_RIGHT);
-		btn.setText("Start simulation");
-		btn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				proceed = true;
-				primaryStage.close();
-			}
-		});
-
-		HBox top = new HBox();
-		HBox bottom = new HBox();
-		VBox left = new VBox();
-		VBox right = new VBox();
-		GridPane center = new GridPane();
-
-		BorderPane root = new BorderPane();
-		root.setTop(top);
-		root.setBottom(bottom);
-		root.setLeft(left);
-		root.setRight(right);
-		root.setCenter(center);
-
-		top.getChildren().add(displayModeCB);
-		top.getChildren().add(fullscreenCB);
-		bottom.getChildren().add(btn);
-
+		try {
+			System.out.println(getClass().getResource("DesktopLauncher.fxml"));
+			root = FXMLLoader.load(getClass().getResource("DesktopLauncher.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		primaryStage.setScene(new Scene(root, 300, 250));
+		primaryStage.setTitle("Primordial Soup setup");
 		primaryStage.show();
+	}
+
+	public static void setProceed(boolean value){
+		proceed = value;
+	}
+
+	public static void setDisplayMode(Graphics.DisplayMode value){
+		displayMode = value;
+	}
+
+	public static void setFullscreen(boolean value){
+		fullscreen = value;
 	}
 }

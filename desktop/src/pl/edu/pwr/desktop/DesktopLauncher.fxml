@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.pwr.desktop.controller.DesktopController">
+    <top>
+        <HBox>
+           <children>
+               <ComboBox fx:id="displayModeCB" />
+               <CheckBox fx:id="fullscreenCB" selected="false" text="Fullscreen" />
+           </children>
+        </HBox>
+    </top>
+    <bottom>
+        <HBox>
+           <children>
+               <Button fx:id="startB" defaultButton="true" onAction="#startSimulation" text="Start simulation" />
+           </children>
+        </HBox>
+    </bottom>
+    <left>
+        <VBox />
+    </left>
+    <right>
+        <VBox />
+    </right>
+    <center>
+        <GridPane />
+    </center>
+
+</BorderPane>
