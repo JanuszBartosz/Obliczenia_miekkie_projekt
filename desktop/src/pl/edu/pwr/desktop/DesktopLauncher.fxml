@@ -1,35 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.pwr.desktop.controller.DesktopController">
+<BorderPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pl.edu.pwr.desktop.controller.DesktopController">
     <top>
         <HBox>
-           <children>
-               <ComboBox fx:id="displayModeCB" />
-               <CheckBox fx:id="fullscreenCB" selected="false" text="Fullscreen" />
-           </children>
+            <children>
+                <ComboBox fx:id="displayModeCB" maxWidth="200.0" minWidth="200.0" prefWidth="200.0">
+                    <HBox.margin>
+                        <Insets right="5.0"/>
+                    </HBox.margin>
+                </ComboBox>
+                <CheckBox fx:id="fullscreenCB" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" selected="false"
+                          text="Fullscreen">
+                    <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </opaqueInsets>
+                </CheckBox>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </BorderPane.margin>
         </HBox>
     </top>
     <bottom>
         <HBox>
-           <children>
-               <Button fx:id="startB" defaultButton="true" onAction="#startSimulation" text="Start simulation" />
-           </children>
+            <children>
+                <Button fx:id="startB" defaultButton="true" onAction="#startSimulation" text="Start simulation"/>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </BorderPane.margin>
         </HBox>
     </bottom>
-    <left>
-        <VBox />
-    </left>
-    <right>
-        <VBox />
-    </right>
     <center>
-        <GridPane />
+        <ScrollPane BorderPane.alignment="CENTER">
+            <content>
+                <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                        <Tab text="Neural net">
+                            <content>
+                                <AnchorPane>
+                                    <children>
+                                        <GridPane hgap="5.0" vgap="5.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints minWidth="150.0" hgrow="SOMETIMES"/>
+                                                <ColumnConstraints minWidth="200.0" hgrow="SOMETIMES"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                            <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Layers"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Neurons in layer"
+                                                      GridPane.rowIndex="1"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
+                                                        GridPane.rowIndex="1"/>
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                            </padding>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Genetic algorithm">
+                            <content>
+                                <AnchorPane>
+                                    <children>
+                                        <GridPane hgap="5.0" vgap="5.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints minWidth="150.0" hgrow="SOMETIMES"/>
+                                                <ColumnConstraints minWidth="200.0" hgrow="SOMETIMES"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                            <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover rate"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation rate"
+                                                      GridPane.rowIndex="1"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
+                                                        GridPane.rowIndex="1"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation intensity"
+                                                      GridPane.rowIndex="2"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
+                                                        GridPane.rowIndex="2"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation max value"
+                                                      GridPane.rowIndex="3"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
+                                                        GridPane.rowIndex="3"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament size"
+                                                      GridPane.rowIndex="4"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
+                                                        GridPane.rowIndex="4"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament pass"
+                                                      GridPane.rowIndex="5"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
+                                                        GridPane.rowIndex="5"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation ticks"
+                                                      GridPane.rowIndex="6"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
+                                                        GridPane.rowIndex="6"/>
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                            </padding>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Simulation">
+                            <content>
+                                <AnchorPane>
+                                    <children>
+                                        <GridPane hgap="5.0" vgap="5.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints minWidth="150.0" hgrow="SOMETIMES"/>
+                                                <ColumnConstraints minWidth="200.0" hgrow="SOMETIMES"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                            <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Animals count"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food count"
+                                                      GridPane.rowIndex="1"/>
+                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
+                                                        GridPane.rowIndex="1"/>
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                            </padding>
+                                        </GridPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </content>
+        </ScrollPane>
     </center>
+    <left>
+
+    </left>
 
 </BorderPane>
