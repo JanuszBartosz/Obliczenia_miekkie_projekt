@@ -59,9 +59,8 @@ public class EntityStepTimer extends ForwardableTimer {
         LocalTime end = LocalTime.now();
         System.out.println("Finished GA: " + ((end.getNano() - start.getNano()) / 1000000) + " ms");
         this.simulation = new Simulation(newHerbivorePopulation, newCarnivorePopulation);
-        System.out.println("Restarting");
+        stopFastForward();
         start();
-
         if (fastForwardOnFinish) {
             startFastForward();
         }
