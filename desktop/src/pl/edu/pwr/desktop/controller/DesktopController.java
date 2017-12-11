@@ -7,9 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import pl.edu.pwr.desktop.DesktopLauncher;
 
@@ -27,6 +25,12 @@ public class DesktopController implements Initializable {
     @FXML
     private Button startB;
 
+    @FXML
+    private ToggleGroup crossoverTG;
+
+    @FXML
+    private ToggleGroup mutationTG;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<Graphics.DisplayMode> options =
@@ -41,6 +45,9 @@ public class DesktopController implements Initializable {
             return 0;
         });
         displayModeCB.setValue(options.get(0));
+
+        crossoverTG.selectToggle(crossoverTG.getToggles().get(0));
+        mutationTG.selectToggle(mutationTG.getToggles().get(0));
     }
 
     @FXML

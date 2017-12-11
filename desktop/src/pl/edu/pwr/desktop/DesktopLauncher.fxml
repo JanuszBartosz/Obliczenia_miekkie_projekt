@@ -45,7 +45,7 @@
             <tabs>
                 <Tab text="Neural net">
                     <content>
-                        <ScrollPane prefViewportHeight="301.0" prefViewportWidth="400.0">
+                        <ScrollPane>
                             <content>
                                 <AnchorPane>
                                     <children>
@@ -60,11 +60,12 @@
                                             </rowConstraints>
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Layers"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"/>
+                                                <Spinner min="1" max="10" GridPane.columnIndex="1"/>
+
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Neurons in layer"
                                                       GridPane.rowIndex="1"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
-                                                        GridPane.rowIndex="1"/>
+                                                <Spinner min="1" max="10" GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="1"/>
                                             </children>
                                             <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
@@ -104,37 +105,42 @@
                                             </rowConstraints>
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover rate"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"/>
+                                                <Spinner min="0.0" max="1.0" amountToStepBy="0.01"
+                                                         GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="0"/>
 
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation rate"
                                                       GridPane.rowIndex="1"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
-                                                        GridPane.rowIndex="1"/>
+                                                <Spinner min="0.0" max="1.0" amountToStepBy="0.01"
+                                                         GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="1"/>
 
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation intensity"
                                                       GridPane.rowIndex="2"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
-                                                        GridPane.rowIndex="2"/>
+                                                <Spinner min="0.0" max="1.0" amountToStepBy="0.01"
+                                                         GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="2"/>
 
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation max value"
                                                       GridPane.rowIndex="3"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
-                                                        GridPane.rowIndex="3"/>
+                                                <Spinner min="0.0" max="1.0" amountToStepBy="0.01"
+                                                         GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="3"/>
 
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament size"
                                                       GridPane.rowIndex="4"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
-                                                        GridPane.rowIndex="4"/>
+                                                <Spinner min="1" max="100" GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="4"/>
 
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament pass"
                                                       GridPane.rowIndex="5"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
-                                                        GridPane.rowIndex="5"/>
+                                                <Spinner min="1" max="100" GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="5"/>
 
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation ticks"
                                                       GridPane.rowIndex="6"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
-                                                        GridPane.rowIndex="6"/>
+                                                <Spinner min="1" max="Infinity" GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="6"/>
 
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover type"
                                                       GridPane.rowIndex="7"/>
@@ -190,7 +196,7 @@
                 </Tab>
                 <Tab text="Simulation">
                     <content>
-                        <ScrollPane prefViewportHeight="301.0" prefViewportWidth="400.0">
+                        <ScrollPane>
                             <content>
                                 <AnchorPane>
                                     <children>
@@ -204,13 +210,20 @@
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
                                             </rowConstraints>
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Animals count"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"/>
-
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food count"
+                                                      GridPane.rowIndex="0"/>
+                                                <Spinner min="1" max="1000" GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="0"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Herbivores count"
                                                       GridPane.rowIndex="1"/>
-                                                <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
-                                                        GridPane.rowIndex="1"/>
+                                                <Spinner min="1" max="100" GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="1"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Carnivores count"
+                                                      GridPane.rowIndex="2"/>
+                                                <Spinner min="1" max="100" GridPane.columnIndex="1"
+                                                         GridPane.rowIndex="2"/>
                                             </children>
                                             <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
