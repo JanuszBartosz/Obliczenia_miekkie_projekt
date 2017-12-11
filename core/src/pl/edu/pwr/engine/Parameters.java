@@ -3,8 +3,6 @@ package pl.edu.pwr.engine;
 import com.badlogic.gdx.graphics.Color;
 
 public class Parameters {
-
-
     public static double randomMatrixLowerBound = -0.5d;
     public static double randomMatrixUpperBound = 0.5d;
 
@@ -19,6 +17,13 @@ public class Parameters {
     public static int numberPlants = 40;
     public static int numberHerbivores = 30;
     public static int numberCarnivores = 20;
+
+    public static int networkLayers = 4;
+    public static int neuronsPerLayer = 4;
+    public static int simulationTicks = 2400;
+
+    public static GeneticType crossoverType = GeneticType.WEIGHTS;
+    public static GeneticType mutationType = GeneticType.WEIGHTS;
 
     // Board borders
     public static float borderX;

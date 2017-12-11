@@ -8,35 +8,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pl.edu.pwr.desktop.controller.DesktopController">
+<BorderPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.pwr.desktop.controller.DesktopController">
     <top>
         <HBox>
             <children>
                 <ComboBox fx:id="displayModeCB" maxWidth="200.0" minWidth="200.0" prefWidth="200.0">
                     <HBox.margin>
-                        <Insets right="5.0"/>
+                        <Insets right="5.0" />
                     </HBox.margin>
                 </ComboBox>
-                <CheckBox fx:id="fullscreenCB" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" selected="false"
-                          text="Fullscreen">
+                <CheckBox fx:id="fullscreenCB" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" selected="false" text="Fullscreen">
                     <opaqueInsets>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </opaqueInsets>
                 </CheckBox>
             </children>
             <BorderPane.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>
         </HBox>
     </top>
     <bottom>
         <HBox alignment="CENTER_RIGHT">
             <children>
-                <Button fx:id="startB" defaultButton="true" onAction="#startSimulation" text="Start simulation"/>
+                <Button fx:id="startB" defaultButton="true" onAction="#startSimulation" text="Start simulation" />
             </children>
             <BorderPane.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>
         </HBox>
     </bottom>
@@ -51,29 +49,30 @@
                                     <children>
                                         <GridPane hgap="5.0" vgap="5.0">
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Layers"/>
-                                                <Spinner min="1" max="10" GridPane.columnIndex="1"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Layers" />
+                                                <Spinner fx:id="layersS" max="10" min="1" GridPane.columnIndex="1" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Neurons in layer"
-                                                      GridPane.rowIndex="1"/>
-                                                <Spinner min="1" max="10" GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="1"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Neurons in layer" GridPane.rowIndex="1" />
+                                                <Spinner fx:id="neuronsS" max="10" min="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                             </children>
                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                             </padding>
                                         </GridPane>
                                     </children>
                                 </AnchorPane>
                             </content>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                         </ScrollPane>
                     </content>
                 </Tab>
@@ -83,114 +82,88 @@
                         <ToggleGroup fx:id="mutationTG"/>
                     </fx:define>
                     <content>
-                        <ScrollPane prefViewportHeight="320.0" prefViewportWidth="400.0">
+                        <ScrollPane>
                             <content>
                                 <AnchorPane>
                                     <children>
                                         <GridPane hgap="5.0" vgap="5.0">
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover rate"/>
-                                                <Spinner min="0.0" max="1.0" amountToStepBy="0.01"
-                                                         GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="0"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover rate" />
+                                                <Spinner fx:id="crossoverRateS" amountToStepBy="0.01" max="1.0" min="0.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation rate"
-                                                      GridPane.rowIndex="1"/>
-                                                <Spinner min="0.0" max="1.0" amountToStepBy="0.01"
-                                                         GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="1"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation rate" GridPane.rowIndex="1" />
+                                                <Spinner fx:id="mutationRateS" amountToStepBy="0.01" max="1.0" min="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation intensity"
-                                                      GridPane.rowIndex="2"/>
-                                                <Spinner min="0.0" max="1.0" amountToStepBy="0.01"
-                                                         GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="2"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation intensity" GridPane.rowIndex="2" />
+                                                <Spinner fx:id="mutationSpecimenS" amountToStepBy="0.01" max="1.0" min="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation max value"
-                                                      GridPane.rowIndex="3"/>
-                                                <Spinner min="0.0" max="1.0" amountToStepBy="0.01"
-                                                         GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="3"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation max value" GridPane.rowIndex="3" />
+                                                <Spinner fx:id="mutationMaxValueS" amountToStepBy="0.01" max="1.0" min="0.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament size"
-                                                      GridPane.rowIndex="4"/>
-                                                <Spinner min="1" max="100" GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="4"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament size" GridPane.rowIndex="4" />
+                                                <Spinner fx:id="tournamentSizeS" max="100" min="1" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament pass"
-                                                      GridPane.rowIndex="5"/>
-                                                <Spinner min="1" max="100" GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="5"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament pass" GridPane.rowIndex="5" />
+                                                <Spinner fx:id="tournamentPassS" max="100" min="1" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation ticks"
-                                                      GridPane.rowIndex="6"/>
-                                                <Spinner min="1" max="Infinity" GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="6"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation ticks" GridPane.rowIndex="6" />
+                                                <Spinner fx:id="simulationTicksS" max="2147483647" min="1" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover type"
-                                                      GridPane.rowIndex="7"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover type" GridPane.rowIndex="7" />
                                                 <GridPane GridPane.columnIndex="1" GridPane.rowIndex="7">
                                                     <columnConstraints>
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
                                                     </columnConstraints>
                                                     <rowConstraints>
-                                                        <RowConstraints maxHeight="30.0" minHeight="30.0"
-                                                                        vgrow="SOMETIMES"/>
+                                                        <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                                     </rowConstraints>
                                                     <children>
-                                                        <RadioButton mnemonicParsing="false" text="Weights"
-                                                                     GridPane.columnIndex="0" GridPane.rowIndex="0"
-                                                                     toggleGroup="$crossoverTG"/>
-                                                        <RadioButton mnemonicParsing="false" text="Nodes"
-                                                                     GridPane.columnIndex="1" GridPane.rowIndex="0"
-                                                                     toggleGroup="$crossoverTG"/>
+                                                        <RadioButton mnemonicParsing="false" text="Weights" toggleGroup="$crossoverTG" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                        <RadioButton mnemonicParsing="false" text="Nodes" toggleGroup="$crossoverTG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                                     </children>
                                                 </GridPane>
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation type"
-                                                      GridPane.rowIndex="8"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation type" GridPane.rowIndex="8" />
                                                 <GridPane GridPane.columnIndex="1" GridPane.rowIndex="8">
                                                     <columnConstraints>
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
                                                     </columnConstraints>
                                                     <rowConstraints>
-                                                        <RowConstraints maxHeight="30.0" minHeight="30.0"
-                                                                        vgrow="SOMETIMES"/>
+                                                        <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                                     </rowConstraints>
                                                     <children>
-                                                        <RadioButton mnemonicParsing="false" text="Weights"
-                                                                     GridPane.columnIndex="0" GridPane.rowIndex="0"
-                                                                     toggleGroup="$mutationTG"/>
-                                                        <RadioButton mnemonicParsing="false" text="Nodes"
-                                                                     GridPane.columnIndex="1" GridPane.rowIndex="0"
-                                                                     toggleGroup="$mutationTG"/>
+                                                        <RadioButton mnemonicParsing="false" text="Weights" toggleGroup="$mutationTG" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                        <RadioButton mnemonicParsing="false" text="Nodes" toggleGroup="$mutationTG" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                                     </children>
                                                 </GridPane>
                                             </children>
                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                             </padding>
                                         </GridPane>
                                     </children>
                                 </AnchorPane>
                             </content>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                         </ScrollPane>
                     </content>
                 </Tab>
@@ -202,36 +175,35 @@
                                     <children>
                                         <GridPane hgap="5.0" vgap="5.0">
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0"/>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
-                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints />
                                             </rowConstraints>
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food count"
-                                                      GridPane.rowIndex="0"/>
-                                                <Spinner min="1" max="1000" GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="0"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food count" GridPane.rowIndex="0" />
+                                                <Spinner fx:id="foodS" max="1000" min="1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Herbivores count"
-                                                      GridPane.rowIndex="1"/>
-                                                <Spinner min="1" max="100" GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="1"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Herbivores count" GridPane.rowIndex="1" />
+                                                <Spinner fx:id="herbivoresS" max="100" min="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Carnivores count"
-                                                      GridPane.rowIndex="2"/>
-                                                <Spinner min="1" max="100" GridPane.columnIndex="1"
-                                                         GridPane.rowIndex="2"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Carnivores count" GridPane.rowIndex="2" />
+                                                <Spinner fx:id="carnivoresS" max="100" min="1" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                             </children>
                                             <padding>
-                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                             </padding>
                                         </GridPane>
                                     </children>
                                 </AnchorPane>
                             </content>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                         </ScrollPane>
                     </content>
                 </Tab>

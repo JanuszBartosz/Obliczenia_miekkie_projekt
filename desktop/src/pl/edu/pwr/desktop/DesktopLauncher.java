@@ -54,7 +54,7 @@ public class DesktopLauncher extends Application{
 			e.printStackTrace();
 		}
 
-		primaryStage.setScene(new Scene(root, 400, 400));
+		primaryStage.setScene(new Scene(root, 400, 500));
 		primaryStage.setTitle("Primordial Soup setup");
 		primaryStage.show();
 	}
