@@ -11,17 +11,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import pl.edu.pwr.EntityStepTimer;
 import pl.edu.pwr.ForwardableTimer;
 import pl.edu.pwr.Timer;
 
 public class MenuStage extends Stage {
-    public MenuStage(int width, int height, int midpointX, EntityStepTimer stepTimer){
+    public MenuStage(int width, int height, int midpointX, EntityStepTimer stepTimer) {
         this.width = width;
         this.height = height;
         this.midpointX = midpointX;
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
+        generation = 1;
 
         float xPos = midpointX + ((width - buttonWidth) / 2.0f);
         float yPos = height - buttonHeight - buttonSpacing;
@@ -29,7 +32,7 @@ public class MenuStage extends Stage {
         startButton = createButton("START");
         startButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
-        startButton.addListener(new ClickListener(){
+        startButton.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 stepTimer.start();
             }
@@ -38,12 +41,11 @@ public class MenuStage extends Stage {
         pauseButton = createButton("PAUSE");
         pauseButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
-        pauseButton.addListener(new ClickListener(){
+        pauseButton.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                if(stepTimer.isRunning()){
+                if (stepTimer.isRunning()) {
                     stepTimer.pause();
-                }
-                else {
+                } else {
                     stepTimer.resume();
                 }
             }
@@ -52,7 +54,7 @@ public class MenuStage extends Stage {
         stopButton = createButton("STOP");
         stopButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
-        stopButton.addListener(new ClickListener(){
+        stopButton.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 stepTimer.cancel();
             }
@@ -61,7 +63,7 @@ public class MenuStage extends Stage {
         jumpButton = createButton("JUMP");
         jumpButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
-        jumpButton.addListener(new ClickListener(){
+        jumpButton.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 stepTimer.fastForwardOnFinish = false;
                 stepTimer.startFastForward();
@@ -72,13 +74,12 @@ public class MenuStage extends Stage {
         fastForwardButton = createButton("FAST FORWARD");
         fastForwardButton.setPosition(xPos, yPos);
         yPos -= buttonHeight + buttonSpacing;
-        fastForwardButton.addListener(new ClickListener(){
+        fastForwardButton.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                if(stepTimer.isFastForwarding()){
+                if (stepTimer.isFastForwarding()) {
                     stepTimer.fastForwardOnFinish = false;
                     stepTimer.stopFastForward();
-                }
-                else{
+                } else {
                     stepTimer.fastForwardOnFinish = true;
                     stepTimer.startFastForward();
                 }
@@ -87,11 +88,17 @@ public class MenuStage extends Stage {
 
         resetButton = createButton("RESET");
         resetButton.setPosition(xPos, yPos);
-        resetButton.addListener(new ClickListener(){
+        yPos -= buttonHeight + buttonSpacing;
+        resetButton.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 stepTimer.reset();
             }
         });
+
+        generationButton = createButton(Integer.toString(generation));
+        generationButton.setPosition(xPos, yPos);
+
+        stepTimer.generationProperty().addListener((observable, oldValue, newValue) -> generationButton.setText(Integer.toString(newValue.intValue())));
 
         this.addActor(startButton);
         this.addActor(pauseButton);
@@ -99,6 +106,7 @@ public class MenuStage extends Stage {
         this.addActor(jumpButton);
         this.addActor(fastForwardButton);
         this.addActor(resetButton);
+        this.addActor(generationButton);
     }
 
     private int width;
@@ -112,6 +120,8 @@ public class MenuStage extends Stage {
     private TextButton jumpButton;
     private TextButton fastForwardButton;
     private TextButton resetButton;
+    private TextButton generationButton;
+    private int generation;
 
     private final static float buttonWidth = 150.0f;
     private final static float buttonHeight = 50.0f;
@@ -124,7 +134,7 @@ public class MenuStage extends Stage {
         shapeRenderer.setColor(menuBarColor);
         shapeRenderer.rect(midpointX, 0, width, height);
         shapeRenderer.end();
-        
+
         batch.begin();
         startButton.draw(batch, 1.0f);
         pauseButton.draw(batch, 1.0f);
@@ -132,6 +142,7 @@ public class MenuStage extends Stage {
         jumpButton.draw(batch, 1.0f);
         fastForwardButton.draw(batch, 1.0f);
         resetButton.draw(batch, 1.0f);
+        generationButton.draw(batch, 1.0f);
         batch.end();
     }
 
@@ -141,14 +152,14 @@ public class MenuStage extends Stage {
         batch.dispose();
     }
 
-    private TextButton createButton(String label){
+    private TextButton createButton(String label) {
         // Create a font
         BitmapFont font = new BitmapFont();
         Skin skin = new Skin();
         skin.add("default", font);
 
         // Create a texture
-        Pixmap pixmap = new Pixmap((int)buttonWidth, (int)buttonHeight, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap((int) buttonWidth, (int) buttonHeight, Pixmap.Format.RGB888);
         pixmap.setColor(Color.GRAY);
         pixmap.fill();
         skin.add("background", new Texture(pixmap));
@@ -163,5 +174,10 @@ public class MenuStage extends Stage {
         skin.add("default", textButtonStyle);
 
         return new TextButton(label, skin);
+    }
+
+    public void setGeneration(int value) {
+        generation = value;
+        generationButton.setText(Integer.toString(generation));
     }
 }

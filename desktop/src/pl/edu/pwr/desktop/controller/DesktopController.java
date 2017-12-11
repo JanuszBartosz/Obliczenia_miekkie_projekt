@@ -79,6 +79,7 @@ public class DesktopController implements Initializable {
             }
             return 0;
         });
+        displayModeCB.setItems(options);
         displayModeCB.setValue(options.get(0));
 
         // Simulation settings

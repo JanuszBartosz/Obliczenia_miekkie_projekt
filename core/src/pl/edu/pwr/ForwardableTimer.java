@@ -73,7 +73,6 @@ public abstract class ForwardableTimer extends Timer {
     @Override
     protected void onPreFinish() {
         // Cleanup
-        System.out.println("onPreFinish()");
         stopJump();
         stopFastForward();
     }

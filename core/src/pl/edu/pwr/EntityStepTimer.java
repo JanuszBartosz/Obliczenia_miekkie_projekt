@@ -1,5 +1,7 @@
 package pl.edu.pwr;
 
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import pl.edu.pwr.engine.simulation.EntityFactory;
 import pl.edu.pwr.engine.simulation.EntityType;
 import pl.edu.pwr.engine.simulation.Simulation;
@@ -12,18 +14,36 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class EntityStepTimer extends ForwardableTimer {
-    private static int i = 1;
+    private ReadOnlyIntegerProperty generation;
     private Simulation simulation;
     public boolean fastForwardOnFinish = false;
 
     public EntityStepTimer(Simulation simulation, long interval, long duration) {
         super(interval, duration);
         this.simulation = simulation;
+        generation = new SimpleIntegerProperty();
+        resetGeneration();
+    }
+
+    public final int getGeneration() {
+        return generation.get();
+    }
+
+    public final void incrementGeneration() {
+        ((SimpleIntegerProperty) generation).set(getGeneration() + 1);
+    }
+
+    public final void resetGeneration() {
+        ((SimpleIntegerProperty) generation).set(1);
+    }
+
+    public ReadOnlyIntegerProperty generationProperty() {
+        return generation;
     }
 
     @Override
     protected void onTick() {
-        if(!simulation.simulate()){
+        if (!simulation.simulate()) {
             cancel();
             onFinish();
         }
@@ -31,7 +51,6 @@ public class EntityStepTimer extends ForwardableTimer {
 
     @Override
     protected void onFinish() {
-        System.out.println("\n"+ i +": onFinish()");
         LocalTime start = LocalTime.now();
         List<Entity> newHerbivorePopulation = new GeneticAlgorithm(simulation.getHerbivoresGenotypes()).run().stream()
                 .map(x -> EntityFactory.getEntity(EntityType.HERBIVORE, x)).collect(Collectors.toList());
@@ -43,11 +62,11 @@ public class EntityStepTimer extends ForwardableTimer {
         System.out.println("Restarting");
         start();
 
-        if(fastForwardOnFinish){
-            System.out.println("fastForwardOnFinish");
+        if (fastForwardOnFinish) {
             startFastForward();
         }
-        i++;
+
+        incrementGeneration();
     }
 
     @Override
