@@ -31,7 +31,7 @@
         </HBox>
     </top>
     <bottom>
-        <HBox>
+        <HBox alignment="CENTER_RIGHT">
             <children>
                 <Button fx:id="startB" defaultButton="true" onAction="#startSimulation" text="Start simulation"/>
             </children>
@@ -41,18 +41,18 @@
         </HBox>
     </bottom>
     <center>
-        <ScrollPane BorderPane.alignment="CENTER">
-            <content>
-                <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-                    <tabs>
-                        <Tab text="Neural net">
+        <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab text="Neural net">
+                    <content>
+                        <ScrollPane prefViewportHeight="301.0" prefViewportWidth="400.0">
                             <content>
                                 <AnchorPane>
                                     <children>
                                         <GridPane hgap="5.0" vgap="5.0">
                                             <columnConstraints>
-                                                <ColumnConstraints minWidth="150.0" hgrow="SOMETIMES"/>
-                                                <ColumnConstraints minWidth="200.0" hgrow="SOMETIMES"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
@@ -73,15 +73,23 @@
                                     </children>
                                 </AnchorPane>
                             </content>
-                        </Tab>
-                        <Tab text="Genetic algorithm">
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Genetic algorithm">
+                    <fx:define>
+                        <ToggleGroup fx:id="crossoverTG"/>
+                        <ToggleGroup fx:id="mutationTG"/>
+                    </fx:define>
+                    <content>
+                        <ScrollPane prefViewportHeight="320.0" prefViewportWidth="400.0">
                             <content>
                                 <AnchorPane>
                                     <children>
                                         <GridPane hgap="5.0" vgap="5.0">
                                             <columnConstraints>
-                                                <ColumnConstraints minWidth="150.0" hgrow="SOMETIMES"/>
-                                                <ColumnConstraints minWidth="200.0" hgrow="SOMETIMES"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
@@ -127,6 +135,48 @@
                                                       GridPane.rowIndex="6"/>
                                                 <Slider minorTickCount="1" snapToTicks="true" GridPane.columnIndex="1"
                                                         GridPane.rowIndex="6"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover type"
+                                                      GridPane.rowIndex="7"/>
+                                                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints maxHeight="30.0" minHeight="30.0"
+                                                                        vgrow="SOMETIMES"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <RadioButton mnemonicParsing="false" text="Weights"
+                                                                     GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                                                     toggleGroup="$crossoverTG"/>
+                                                        <RadioButton mnemonicParsing="false" text="Nodes"
+                                                                     GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                                                     toggleGroup="$crossoverTG"/>
+                                                    </children>
+                                                </GridPane>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation type"
+                                                      GridPane.rowIndex="8"/>
+                                                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints maxHeight="30.0" minHeight="30.0"
+                                                                        vgrow="SOMETIMES"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <RadioButton mnemonicParsing="false" text="Weights"
+                                                                     GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                                                     toggleGroup="$mutationTG"/>
+                                                        <RadioButton mnemonicParsing="false" text="Nodes"
+                                                                     GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                                                     toggleGroup="$mutationTG"/>
+                                                    </children>
+                                                </GridPane>
                                             </children>
                                             <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
@@ -135,15 +185,19 @@
                                     </children>
                                 </AnchorPane>
                             </content>
-                        </Tab>
-                        <Tab text="Simulation">
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Simulation">
+                    <content>
+                        <ScrollPane prefViewportHeight="301.0" prefViewportWidth="400.0">
                             <content>
                                 <AnchorPane>
                                     <children>
                                         <GridPane hgap="5.0" vgap="5.0">
                                             <columnConstraints>
-                                                <ColumnConstraints minWidth="150.0" hgrow="SOMETIMES"/>
-                                                <ColumnConstraints minWidth="200.0" hgrow="SOMETIMES"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES"/>
@@ -165,14 +219,10 @@
                                     </children>
                                 </AnchorPane>
                             </content>
-                        </Tab>
-                    </tabs>
-                </TabPane>
-            </content>
-        </ScrollPane>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
     </center>
-    <left>
-
-    </left>
-
 </BorderPane>
