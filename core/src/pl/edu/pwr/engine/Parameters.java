@@ -9,8 +9,8 @@ public class Parameters {
     public static int tournamentSize = 3;
     public static int tournamentWinners = 1;
 
-    public static double crossoverRate = 0.7d;
-    public static double specimenMutationRate = 0.3d;
+    public static double crossoverRate = 0.8d;
+    public static double specimenMutationRate = 0.4d;
     public static double geneMutationRate = 0.2d;
     public static double maxMutationValue = 0.2d;
 
@@ -18,10 +18,10 @@ public class Parameters {
     public static int numberHerbivores = 30;
     public static int numberCarnivores = 15;
 
-    public static int networkLayersHerbivores = 2;
-    public static int neuronsPerLayerHerbivores = 15;
+    public static int networkLayersHerbivores = 3;
+    public static int neuronsPerLayerHerbivores = 20;
     public static int networkLayersCarnivores = 2;
-    public static int neuronsPerLayerCarnivores = 10;
+    public static int neuronsPerLayerCarnivores = 15;
 
     public static int simulationTicks = 120000;
     public static int tickInterval = 20;
@@ -34,9 +34,11 @@ public class Parameters {
     public static float borderY;
     public static double maxDistance;
     public static Color plantsColor = Color.GREEN;
-    public static float plantsRadius = 8;
+    public static float plantsRadius = 10;
     public static Color herbivoreColor = Color.BLUE;
     public static float herbivoreRadius = 10;
+    public static int initialFullness = 1000;
+    public static int maxFullness = 2000;
 
 
     public static Color carnivoreColor = Color.RED;

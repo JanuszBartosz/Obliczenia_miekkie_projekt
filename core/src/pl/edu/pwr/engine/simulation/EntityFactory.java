@@ -29,7 +29,8 @@ public class EntityFactory {
                         0,
                         Parameters.herbivoreColor,
                         Parameters.herbivoreRadius,
-                        new NeuralNetParams(3, 15, 4, 3));
+                        new NeuralNetParams(Parameters.networkLayersHerbivores, Parameters.neuronsPerLayerHerbivores,
+                                5, 3));
             }
             case CARNIVORE: {
                 return new Animal(
@@ -39,7 +40,8 @@ public class EntityFactory {
                         0,
                         Parameters.carnivoreColor,
                         Parameters.carnivoreRadius,
-                        new NeuralNetParams(3, 15, 2, 3));
+                        new NeuralNetParams(Parameters.networkLayersCarnivores, Parameters.neuronsPerLayerCarnivores,
+                                3, 3));
             }
         }
         return null;
@@ -75,6 +77,7 @@ public class EntityFactory {
     public static Entity randomizePosition(Entity entity){
         entity.setX(random.nextFloat() * Parameters.borderX);
         entity.setY(random.nextFloat() * Parameters.borderY);
+        entity.resetFullness();
         return entity;
     }
 }

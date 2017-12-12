@@ -12,12 +12,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Simulation {
+
     List<Entity> plants;
     List<Entity> herbivores;
     List<Entity> herbivoresMouth;
     List<Entity> deadHerbivores;
     List<Entity> carnivores;
     List<Entity> carnivoresMouth;
+    List<Entity> deadCarnivores;
 
     public Simulation() {
         this.plants = Stream.generate(() -> EntityFactory.getEntity(EntityType.PLANT)).limit(Parameters.numberPlants).collect(Collectors.toList());
@@ -26,6 +28,7 @@ public class Simulation {
         this.deadHerbivores = new ArrayList<>();
         this.herbivoresMouth = new ArrayList<>();
         this.carnivoresMouth = new ArrayList<>();
+        this.deadCarnivores = new ArrayList<>();
 
         Entity mouth = new Entity(0, 0, 0, 0, Color.BLACK, 3);
         Entity leftEye = new Entity(0, 0, 0, 0, Color.BROWN, 2);
@@ -54,6 +57,7 @@ public class Simulation {
         this.deadHerbivores = new ArrayList<>();
         this.herbivoresMouth = new ArrayList<>();
         this.carnivoresMouth = new ArrayList<>();
+        this.deadCarnivores = new ArrayList<>();
 
         Entity mouth = new Entity(0, 0, 0, 0, Color.BLACK, 3);
         Entity leftEye = new Entity(0, 0, 0, 0, Color.BROWN, 2);
@@ -80,7 +84,7 @@ public class Simulation {
     }
 
     public List<Genotype> getCarnivoresGenotypes() {
-        return carnivores.stream().map(Entity::mapToGenotype).collect(Collectors.toList());
+        return Stream.concat(carnivores.stream(), deadCarnivores.stream()).map(Entity::mapToGenotype).collect(Collectors.toList());
     }
 
     public List<Entity> getHerbivores() {
@@ -88,7 +92,7 @@ public class Simulation {
     }
 
     public List<Entity> getCarnivores() {
-        return carnivores;
+        return Stream.concat(carnivores.stream(), deadCarnivores.stream()).collect(Collectors.toList());
     }
 
 
@@ -100,15 +104,26 @@ public class Simulation {
         Map<Entity, Set<Entity>> intersectedHerbivores = Entity.getIntersectedEntities(carnivoresMouth, herbivores);
 
         List<Entity> herbivoresToRespawn = new ArrayList<>();
+        List<Entity> carnivoresToRespawn = new ArrayList<>();
 
         // Respawn loop
-        for (Entity herbivore : deadHerbivores){
-            if(((Animal)herbivore).decrementRespawnCooldown() == 0){
+        for (Entity herbivore : deadHerbivores) {
+            if (((Animal) herbivore).decrementRespawnCooldown() == 0) {
+
                 herbivoresToRespawn.add(EntityFactory.randomizePosition(herbivore));
             }
         }
+
+        for (Entity carnivore : deadCarnivores) {
+            if (((Animal) carnivore).decrementRespawnCooldown() == 0) {
+                carnivoresToRespawn.add(EntityFactory.randomizePosition(carnivore));
+            }
+        }
+
         herbivores.addAll(herbivoresToRespawn);
         deadHerbivores.removeAll(herbivoresToRespawn);
+        carnivores.addAll(carnivoresToRespawn);
+        deadCarnivores.removeAll(carnivoresToRespawn);
 
         for (Entity carnivore : carnivores) {
             //Check if caught pray.
@@ -119,7 +134,7 @@ public class Simulation {
                 for (Entity intersection : intersections) {
                     if (!deadHerbivores.contains(intersection)) {
                         deadHerbivores.add(intersection);
-                        ((Animal)deadHerbivores.get(deadHerbivores.size() - 1)).setRespawnCooldown();
+                        ((Animal) deadHerbivores.get(deadHerbivores.size() - 1)).setRespawnCooldown();
                         herbivores.remove(intersection);
                     }
                 }
@@ -144,7 +159,7 @@ public class Simulation {
 
         for (Entity carnivore : carnivores) {
             Entity nearestHerbivore = findNearestEntity(carnivore, herbivores);
-            double[] inputs = new double[2];
+            double[] inputs = new double[3];
             RelativeEntity leftEye = carnivore.getChildren().get(1);
             RelativeEntity rightEye = carnivore.getChildren().get(2);
             if (nearestHerbivore != null) {
@@ -154,31 +169,97 @@ public class Simulation {
                 inputs[0] = 0;
                 inputs[1] = 0;
 
-                // Returning from simulation due to no herbivores
                 retVal = false;
             }
+
+            if (inputs[0] > inputs[1]) {
+                inputs[0] = inputs[0] - inputs[1];
+                inputs[1] = 0;
+            } else {
+                inputs[1] = inputs[1] - inputs[0];
+                inputs[0] = 0;
+            }
+            inputs[2] = (double) carnivore.getFullness();
             carnivore.setNextInputs(inputs);
         }
 
         for (Entity herbivore : herbivores) {
             Entity nearestPlant = findNearestEntity(herbivore, plants);
             Entity nearestCarnivore = findNearestEntity(herbivore, carnivores);
-            double[] inputs = new double[4];
+            double[] inputs = new double[5];
             RelativeEntity leftEye = herbivore.getChildren().get(1);
             RelativeEntity rightEye = herbivore.getChildren().get(2);
             inputs[0] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestPlant.getX(), nearestPlant.getY());
             inputs[1] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestPlant.getX(), nearestPlant.getY());
-            inputs[2] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
-            inputs[3] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
+
+            if (nearestCarnivore != null) {
+                inputs[2] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
+                inputs[3] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
+            } else {
+                inputs[2] = 0;
+                inputs[3] = 0;
+            }
+            inputs[4] = (double) herbivore.getFullness();
+
+            double diff1;
+            if (inputs[0] > inputs[1]) {
+                diff1 = inputs[0] - inputs[1];
+                inputs[0] = diff1;
+                inputs[1] = 0;
+            } else {
+                diff1 = inputs[1] - inputs[0];
+                inputs[0] = 0;
+                inputs[1] = diff1;
+            }
+
+            double diff2;
+            if (inputs[2] > inputs[3]) {
+                diff2 = inputs[2] - inputs[3];
+                inputs[2] = diff2;
+                inputs[3] = 0;
+            } else {
+                diff2 = inputs[3] - inputs[2];
+                inputs[2] = 0;
+                inputs[3] = diff2;
+            }
+
             herbivore.setNextInputs(inputs);
         }
 
+        retVal = false;
+
         for (Entity carnivore : carnivores) {
-            carnivore.makeStep();
+            if (carnivore.makeStep()) {
+                retVal = true;
+            }
+        }
+
+        for (Iterator<Entity> iterator = carnivores.iterator(); iterator.hasNext(); ) {
+            Entity carnivore = iterator.next();
+            if (!carnivore.isAlive()) {
+                if (!deadCarnivores.contains(carnivore)) {
+                    deadCarnivores.add(carnivore);
+                    ((Animal) deadCarnivores.get(deadCarnivores.size() - 1)).setRespawnCooldown();
+                    iterator.remove();
+                }
+            }
+        }
+
+        for (Iterator<Entity> iterator = herbivores.iterator(); iterator.hasNext(); ) {
+            Entity herbivore = iterator.next();
+            if (!herbivore.isAlive()) {
+                if (!deadHerbivores.contains(herbivore)) {
+                    deadHerbivores.add(herbivore);
+                    ((Animal) deadHerbivores.get(deadHerbivores.size() - 1)).setRespawnCooldown();
+                    iterator.remove();
+                }
+            }
         }
 
         for (Entity herbivore : herbivores) {
-            herbivore.makeStep();
+            if (herbivore.makeStep()) {
+                retVal = true;
+            }
         }
 
         return retVal;
