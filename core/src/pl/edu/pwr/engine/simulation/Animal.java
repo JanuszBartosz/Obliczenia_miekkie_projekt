@@ -15,6 +15,10 @@ public class Animal extends Entity {
     private NeuralNet neuralNet;
     private Entity mouth;
     private double[] nextInputs;
+    private int stepCounter;
+    private int fullness;
+    private boolean alive;
+
 
     public Animal(float x, float y, float speed, float angle, Color color, float radius, NeuralNetParams neuralNetParams) {
         super(x, y, speed, angle, color, radius);
@@ -23,36 +27,54 @@ public class Animal extends Entity {
                 neuralNetParams.numberNeuronsPerLayer,
                 neuralNetParams.numberInputs,
                 neuralNetParams.numberOutputs);
+        this.stepCounter = 0;
+        this.fullness = Parameters.initialFullness;
+        this.alive = true;
     }
 
 
     public Animal(float x, float y, float speed, float angle, Color color, float radius, List<double[][]> weights) {
         super(x, y, speed, angle, color, radius);
         this.neuralNet = new FeedforwardNeuralNet(weights);
+        this.stepCounter = 0;
+        this.fullness = Parameters.initialFullness;
+        this.alive = true;
     }
 
     private void calculateSpeedAndAngle(double[] inputs) {
 
         double[] outputs = neuralNet.computeOutputs(normalize(inputs));
         if (outputs[0] > outputs[1]) {
-            this.angle = angle + (float) outputs[0] * Parameters.maxMoveAngle;
+            this.setAngle(angle + (float) outputs[0] * Parameters.maxMoveAngle);
         } else {
-            this.angle = angle - (float) outputs[1] * Parameters.maxMoveAngle;
+            this.setAngle(angle - (float) outputs[1] * Parameters.maxMoveAngle);
         }
         this.speed = Math.abs((float) outputs[2]) * Parameters.maxSpeed;
     }
 
     private double[] normalize(double[] inputs) {
-        for (int i = 0; i < inputs.length; i++) {
-            inputs[i] /= Parameters.maxDistance / 100;
+
+        for (int i = 0; i < inputs.length - 1; i++) {
+            inputs[i] *= 10;
         }
+        inputs[inputs.length - 1] = (Math.abs(Parameters.initialFullness - inputs[inputs.length - 1]) / Parameters.maxFullness) * 100;
         return inputs;
     }
 
     @Override
-    public void makeStep() {
+    public boolean isAlive() {
+        return alive;
+    }
+
+    @Override
+    public boolean makeStep() {
+        stepCounter++;
+        fitness++;
+        fullness--;
+        alive = fullness > 0 && fullness <= Parameters.maxFullness;
         calculateSpeedAndAngle(nextInputs);
         super.makeStep();
+        return alive;
     }
 
     @Override
@@ -63,5 +85,16 @@ public class Animal extends Entity {
     @Override
     public Genotype mapToGenotype() {
         return new Genotype(fitness, neuralNet.getWeights());
+    }
+
+    @Override
+    public void incrementFoundFood(int size) {
+        fullness += size * 500;
+        fitness += size * 500;
+    }
+
+    @Override
+    public int getFullness() {
+        return fullness;
     }
 }

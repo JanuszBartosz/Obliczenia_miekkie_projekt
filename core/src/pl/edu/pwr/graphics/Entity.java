@@ -90,7 +90,13 @@ public class Entity {
     public void setNextInputs(double[] inputs) {
     }
 
-    public Genotype mapToGenotype(){return null;}
+    public int getFullness() {
+        return 0;
+    }
+
+    public Genotype mapToGenotype() {
+        return null;
+    }
 
     public float getSpeed() {
         return speed;
@@ -115,16 +121,17 @@ public class Entity {
         this.angle = angle;
     }
 
-    public void makeStep() {
+    public boolean makeStep() {
         if (speed != 0) {
             setX(getX() + (float) Math.sin(angle) * speed);
             setY(getY() + (float) Math.cos(angle) * speed);
             calculateChildrenPositions();
         }
+        return false;
     }
 
     public void incrementFoundFood(int size) {
-        fitness +=size;
+        fitness += size;
     }
 
     public Color getColor() {
@@ -178,27 +185,27 @@ public class Entity {
     }
 
     public void calculateChildrenPositions() {
-        for(RelativeEntity re : children){
+        for (RelativeEntity re : children) {
             re.setAngle(getAngle() + re.getRelativeAngle());
-            if(re.getRelativeRadius() != 0){
-                re.setX(getX() + (float)Math.sin(re.getAngle()) * re.getRelativeRadius());
-                re.setY(getY() + (float)Math.cos(re.getAngle()) * re.getRelativeRadius());
+            if (re.getRelativeRadius() != 0) {
+                re.setX(getX() + (float) Math.sin(re.getAngle()) * re.getRelativeRadius());
+                re.setY(getY() + (float) Math.cos(re.getAngle()) * re.getRelativeRadius());
             }
         }
     }
 
     private void drawChildren(ShapeRenderer shapeRenderer) {
-        for(RelativeEntity re : children){
+        for (RelativeEntity re : children) {
             re.draw(shapeRenderer);
         }
     }
 
     // Adds child that is drawn relative to parent
-    public RelativeEntity addRelativeChild(Entity entity, float radius, float angle){
+    public RelativeEntity addRelativeChild(Entity entity, float radius, float angle) {
         return addRelativeChild(new RelativeEntity(entity, radius, angle));
     }
 
-    public RelativeEntity addRelativeChild(RelativeEntity entity){
+    public RelativeEntity addRelativeChild(RelativeEntity entity) {
         children.add(entity);
         return entity;
     }
@@ -208,11 +215,11 @@ public class Entity {
         return String.format("x=%f, y=%f, speed=%f, angle=%f, radius=%f", x, y, speed, angle, radius);
     }
 
-    public static Map<Entity, Set<Entity>> getIntersectedEntities(ArrayList<Entity> entities){
+    public static Map<Entity, Set<Entity>> getIntersectedEntities(ArrayList<Entity> entities) {
         Map<Entity, Set<Entity>> retVal = new HashMap<>();
-        if(entities != null){
-            for(int i = 0; i < entities.size(); i++){
-                for(int j = i + 1; j < entities.size(); j++){
+        if (entities != null) {
+            for (int i = 0; i < entities.size(); i++) {
+                for (int j = i + 1; j < entities.size(); j++) {
                     final float radiusSum = entities.get(i).getRadius() + entities.get(j).getRadius();
                     final float e1X = entities.get(i).getX();
                     final float e1Y = entities.get(i).getY();
@@ -227,10 +234,10 @@ public class Entity {
                     final float distance = Math.min(distanceNormal, distanceTransposed);
 
                     // Detect intersection and add both entities to list
-                    if(distance < radiusSum){
+                    if (distance < radiusSum) {
                         // Add to first's entity set
                         Set<Entity> firstSet = retVal.get(entities.get(i));
-                        if(firstSet == null){
+                        if (firstSet == null) {
                             firstSet = new HashSet<>();
                         }
                         firstSet.add(entities.get(j));
@@ -238,7 +245,7 @@ public class Entity {
 
                         // Add to second's entity set
                         Set<Entity> secondSet = retVal.get(entities.get(j));
-                        if(secondSet == null){
+                        if (secondSet == null) {
                             secondSet = new HashSet<>();
                         }
                         secondSet.add(entities.get(i));
@@ -252,11 +259,11 @@ public class Entity {
     }
 
     public static Map<Entity, Set<Entity>> getIntersectedEntities(List<Entity> intersectors,
-                                                                  List<Entity> intersectees){
+                                                                  List<Entity> intersectees) {
         Map<Entity, Set<Entity>> retVal = new HashMap<>();
-        if(intersectors != null && intersectees != null){
-            for(Entity intersector : intersectors){
-                for(Entity intersectee : intersectees){
+        if (intersectors != null && intersectees != null) {
+            for (Entity intersector : intersectors) {
+                for (Entity intersectee : intersectees) {
                     final float radiusSum = intersector.getRadius() + intersectee.getRadius();
                     final float e1X = intersector.getX();
                     final float e1Y = intersector.getY();
@@ -266,9 +273,9 @@ public class Entity {
                     final float distance = getDistanceOnTorus(e1X, e1Y, e2X, e2Y);
 
                     // Detect intersection and add entry only to intersectors
-                    if(distance < radiusSum){
+                    if (distance < radiusSum) {
                         Set<Entity> set = retVal.get(intersector);
-                        if(set == null){
+                        if (set == null) {
                             set = new HashSet<>();
                         }
                         set.add(intersectee);
@@ -281,16 +288,20 @@ public class Entity {
         return retVal;
     }
 
-    public static float euclideanDistance(float x1, float y1, float x2, float y2){
+    public static float euclideanDistance(float x1, float y1, float x2, float y2) {
         final float xDiff = Math.abs(x1 - x2);
         final float yDiff = Math.abs(y1 - y2);
-        return (float)Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+        return (float) Math.sqrt(xDiff * xDiff + yDiff * yDiff);
     }
 
-    public static float getDistanceOnTorus(float x1, float y1, float x2, float y2){
+    public static float getDistanceOnTorus(float x1, float y1, float x2, float y2) {
         final float distanceNormal = euclideanDistance(x1, y1, x2, y2);
-        final float distanceTransposed = euclideanDistance(x1, y1,x2 - Parameters.borderX,y2 - Parameters.borderY);
+        final float distanceTransposed = euclideanDistance(x1, y1, x2 - Parameters.borderX, y2 - Parameters.borderY);
         // Get minimal value, because map is a torus
         return Math.min(distanceNormal, distanceTransposed);
+    }
+
+    public boolean isAlive(){
+        return true;
     }
 }

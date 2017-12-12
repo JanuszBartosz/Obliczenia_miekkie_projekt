@@ -29,7 +29,8 @@ public class EntityFactory {
                         0,
                         Parameters.herbivoreColor,
                         Parameters.herbivoreRadius,
-                        new NeuralNetParams(2, 15, 4, 3));
+                        new NeuralNetParams(Parameters.herbivoreNetworkLayers, Parameters.herbivoreNeuronsPerLayer,
+                                5, 3));
             }
             case CARNIVORE: {
                 return new Animal(
@@ -39,7 +40,8 @@ public class EntityFactory {
                         0,
                         Parameters.carnivoreColor,
                         Parameters.carnivoreRadius,
-                        new NeuralNetParams(2, 10, 2, 3));
+                        new NeuralNetParams(Parameters.carnivoreNetworkLayers, Parameters.carnivoreNeuronsPerLayer,
+                                3, 3));
             }
         }
         return null;

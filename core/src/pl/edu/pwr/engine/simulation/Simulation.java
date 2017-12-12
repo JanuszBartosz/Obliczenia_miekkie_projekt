@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Simulation {
+
     List<Entity> plants;
     List<Entity> herbivores;
     List<Entity> herbivoresMouth;
@@ -123,41 +124,89 @@ public class Simulation {
 
         for (Entity carnivore : carnivores) {
             Entity nearestHerbivore = findNearestEntity(carnivore, herbivores);
-            double[] inputs = new double[2];
+            double[] inputs = new double[3];
             RelativeEntity leftEye = carnivore.getChildren().get(1);
             RelativeEntity rightEye = carnivore.getChildren().get(2);
             if (nearestHerbivore != null) {
-                inputs[0] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
-                inputs[1] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
+                inputs[0] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
+                inputs[1] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
             } else {
                 inputs[0] = 0;
                 inputs[1] = 0;
 
-                System.out.println("Returning from simulation due to no herbivores");
                 retVal = false;
             }
+
+            if (inputs[0] > inputs[1]) {
+                inputs[0] = inputs[0] - inputs[1];
+                inputs[1] = 0;
+            } else {
+                inputs[1] = inputs[1] - inputs[0];
+                inputs[0] = 0;
+            }
+            inputs[2] = (double) carnivore.getFullness();
             carnivore.setNextInputs(inputs);
         }
 
         for (Entity herbivore : herbivores) {
             Entity nearestPlant = findNearestEntity(herbivore, plants);
             Entity nearestCarnivore = findNearestEntity(herbivore, carnivores);
-            double[] inputs = new double[4];
+            double[] inputs = new double[5];
             RelativeEntity leftEye = herbivore.getChildren().get(1);
             RelativeEntity rightEye = herbivore.getChildren().get(2);
-            inputs[0] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestPlant.getX(), nearestPlant.getY());
-            inputs[1] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestPlant.getX(), nearestPlant.getY());
-            inputs[2] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
-            inputs[3] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
+            inputs[0] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestPlant.getX(), nearestPlant.getY());
+            inputs[1] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestPlant.getX(), nearestPlant.getY());
+            inputs[2] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
+            inputs[3] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
+            inputs[4] = (double) herbivore.getFullness();
+
+            double diff1;
+            if (inputs[0] > inputs[1]) {
+                diff1 = inputs[0] - inputs[1];
+                inputs[0] = diff1;
+                inputs[1] = 0;
+            } else {
+                diff1 = inputs[1] - inputs[0];
+                inputs[0] = 0;
+                inputs[1] = diff1;
+            }
+
+            double diff2;
+            if (inputs[2] > inputs[3]) {
+                diff2 = inputs[2] - inputs[3];
+                inputs[2] = diff2;
+                inputs[3] = 0;
+            } else {
+                diff2 = inputs[3] - inputs[2];
+                inputs[2] = 0;
+                inputs[3] = diff2;
+            }
+
             herbivore.setNextInputs(inputs);
         }
 
+        retVal = false;
+
         for (Entity carnivore : carnivores) {
-            carnivore.makeStep();
+            if (carnivore.makeStep()) {
+                retVal = true;
+            }
+        }
+
+        for (Iterator<Entity> iterator = herbivores.iterator(); iterator.hasNext(); ) {
+            Entity herbivore = iterator.next();
+            if (!herbivore.isAlive()) {
+                if (!deadHerbivores.contains(herbivore)) {
+                    deadHerbivores.add(herbivore);
+                    iterator.remove();
+                }
+            }
         }
 
         for (Entity herbivore : herbivores) {
-            herbivore.makeStep();
+            if (herbivore.makeStep()) {
+                retVal = true;
+            }
         }
 
         return retVal;

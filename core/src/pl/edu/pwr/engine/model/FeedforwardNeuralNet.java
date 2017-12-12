@@ -45,7 +45,7 @@ public class FeedforwardNeuralNet implements NeuralNet {
         for (int i = 0; i < neuronLayers.size(); i++) {
             RealMatrix neuronLayer = neuronLayers.get(i);
             outputs = neuronLayer.operate(inputs);
-            outputs = Arrays.stream(outputs).map(new SigmoidBipolar()).toArray();
+            outputs = Arrays.stream(outputs).map(i == neuronLayers.size() - 1 ? new SigmoidUnipolar() : new SigmoidBipolar()).toArray();
             inputs = outputs;
         }
 
