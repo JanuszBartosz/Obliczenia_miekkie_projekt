@@ -55,13 +55,21 @@
                                             <rowConstraints>
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Layers" />
-                                                <Spinner fx:id="layersS" max="10" min="1" GridPane.columnIndex="1" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Herbivores - layers" />
+                                                <Spinner fx:id="layersHerbivoresS" max="50" min="1" GridPane.columnIndex="1" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Neurons in layer" GridPane.rowIndex="1" />
-                                                <Spinner fx:id="neuronsS" max="10" min="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Herbivores - neurons in layer" GridPane.rowIndex="1" />
+                                                <Spinner fx:id="neuronsHerbivoresS" max="50" min="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Carnivores - layers" GridPane.rowIndex="2"/>
+                                                <Spinner fx:id="layersCarnivoresS" max="50" min="1" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Carnivores - neurons in layer" GridPane.rowIndex="3" />
+                                                <Spinner fx:id="neuronsCarnivoresS" max="50" min="1" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                             </children>
                                             <padding>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -101,6 +109,7 @@
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints maxHeight="30.0" minHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover rate" />
@@ -124,8 +133,11 @@
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation ticks" GridPane.rowIndex="6" />
                                                 <Spinner fx:id="simulationTicksS" max="2147483647" min="1" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover type" GridPane.rowIndex="7" />
-                                                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="7">
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tick interval" GridPane.rowIndex="7" />
+                                                <Spinner fx:id="tickIntervalS" max="2147483647" min="1" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crossover type" GridPane.rowIndex="8" />
+                                                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="8">
                                                     <columnConstraints>
                                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
                                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
@@ -139,8 +151,8 @@
                                                     </children>
                                                 </GridPane>
 
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation type" GridPane.rowIndex="8" />
-                                                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="8">
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mutation type" GridPane.rowIndex="9" />
+                                                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="9">
                                                     <columnConstraints>
                                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />
                                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" />

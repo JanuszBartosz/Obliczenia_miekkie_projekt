@@ -18,9 +18,13 @@ public class Parameters {
     public static int numberHerbivores = 30;
     public static int numberCarnivores = 15;
 
-    public static int networkLayers = 4;
-    public static int neuronsPerLayer = 4;
+    public static int networkLayersHerbivores = 2;
+    public static int neuronsPerLayerHerbivores = 15;
+    public static int networkLayersCarnivores = 2;
+    public static int neuronsPerLayerCarnivores = 10;
+
     public static int simulationTicks = 2400;
+    public static int tickInterval = 20;
 
     public static GeneticType crossoverType = GeneticType.WEIGHTS;
     public static GeneticType mutationType = GeneticType.WEIGHTS;

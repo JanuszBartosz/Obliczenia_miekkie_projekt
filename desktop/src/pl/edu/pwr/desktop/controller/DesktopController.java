@@ -30,9 +30,13 @@ public class DesktopController implements Initializable {
     @FXML
     private ToggleGroup mutationTG;
     @FXML
-    private Spinner layersS;
+    private Spinner layersHerbivoresS;
     @FXML
-    private Spinner neuronsS;
+    private Spinner neuronsHerbivoresS;
+    @FXML
+    private Spinner layersCarnivoresS;
+    @FXML
+    private Spinner neuronsCarnivoresS;
     @FXML
     private Spinner crossoverRateS;
     @FXML
@@ -47,6 +51,8 @@ public class DesktopController implements Initializable {
     private Spinner tournamentPassS;
     @FXML
     private Spinner simulationTicksS;
+    @FXML
+    private Spinner tickIntervalS;
     @FXML
     private Spinner foodS;
     @FXML
@@ -83,8 +89,10 @@ public class DesktopController implements Initializable {
         displayModeCB.setValue(options.get(0));
 
         // Simulation settings
-        layersS.getValueFactory().setValue(Parameters.networkLayers);
-        neuronsS.getValueFactory().setValue(Parameters.neuronsPerLayer);
+        layersHerbivoresS.getValueFactory().setValue(Parameters.networkLayersHerbivores);
+        neuronsHerbivoresS.getValueFactory().setValue(Parameters.neuronsPerLayerHerbivores);
+        layersCarnivoresS.getValueFactory().setValue(Parameters.networkLayersCarnivores);
+        neuronsCarnivoresS.getValueFactory().setValue(Parameters.neuronsPerLayerCarnivores);
         crossoverRateS.getValueFactory().setValue(Parameters.crossoverRate);
         mutationRateS.getValueFactory().setValue(Parameters.geneMutationRate);
         mutationSpecimenS.getValueFactory().setValue(Parameters.specimenMutationRate);
@@ -92,6 +100,7 @@ public class DesktopController implements Initializable {
         tournamentSizeS.getValueFactory().setValue(Parameters.tournamentSize);
         tournamentPassS.getValueFactory().setValue(Parameters.tournamentWinners);
         simulationTicksS.getValueFactory().setValue(Parameters.simulationTicks);
+        tickIntervalS.getValueFactory().setValue(Parameters.tickInterval);
         foodS.getValueFactory().setValue(Parameters.numberPlants);
         herbivoresS.getValueFactory().setValue(Parameters.numberHerbivores);
         carnivoresS.getValueFactory().setValue(Parameters.numberCarnivores);
@@ -113,8 +122,10 @@ public class DesktopController implements Initializable {
         DesktopLauncher.setFullscreen(fullscreenCB.isSelected());
 
         // Simulation settings
-        Parameters.networkLayers = (int) layersS.getValue();
-        Parameters.neuronsPerLayer = (int) neuronsS.getValue();
+        Parameters.networkLayersHerbivores = (int) layersHerbivoresS.getValue();
+        Parameters.neuronsPerLayerHerbivores = (int) neuronsHerbivoresS.getValue();
+        Parameters.networkLayersCarnivores = (int) layersCarnivoresS.getValue();
+        Parameters.neuronsPerLayerCarnivores = (int) neuronsCarnivoresS.getValue();
         Parameters.crossoverRate = (double) crossoverRateS.getValue();
         Parameters.geneMutationRate = (double) mutationRateS.getValue();
         Parameters.specimenMutationRate = (double) mutationSpecimenS.getValue();
@@ -122,6 +133,7 @@ public class DesktopController implements Initializable {
         Parameters.tournamentSize = (int) tournamentSizeS.getValue();
         Parameters.tournamentWinners = (int) tournamentPassS.getValue();
         Parameters.simulationTicks = (int) simulationTicksS.getValue();
+        Parameters.tickInterval = (int) tickIntervalS.getValue();
         Parameters.numberPlants = (int) foodS.getValue();
         Parameters.numberHerbivores = (int) herbivoresS.getValue();
         Parameters.numberCarnivores = (int) carnivoresS.getValue();

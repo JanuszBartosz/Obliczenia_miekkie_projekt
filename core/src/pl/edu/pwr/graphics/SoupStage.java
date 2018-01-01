@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import pl.edu.pwr.EntityStepTimer;
 import pl.edu.pwr.ForwardableTimer;
 import pl.edu.pwr.Timer;
+import pl.edu.pwr.engine.Parameters;
 import pl.edu.pwr.engine.simulation.Simulation;
 
 import java.util.ArrayList;
@@ -15,14 +16,13 @@ public class SoupStage extends Stage {
 
     private ShapeRenderer shapeRenderer;
 
-    private final static long millisecondsPerTick = 20;
     private EntityStepTimer stepTimer;
 
     public SoupStage(int width, int height) {
         Entity.setBorders(width, height);
 
         shapeRenderer = new ShapeRenderer();
-        stepTimer = new EntityStepTimer(new Simulation(), millisecondsPerTick, 120000);
+        stepTimer = new EntityStepTimer(new Simulation(), Parameters.tickInterval, Parameters.simulationTicks);
     }
 
     @Override
