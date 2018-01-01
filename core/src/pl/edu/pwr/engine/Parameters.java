@@ -23,7 +23,7 @@ public class Parameters {
     public static int networkLayersCarnivores = 2;
     public static int neuronsPerLayerCarnivores = 10;
 
-    public static int simulationTicks = 2400;
+    public static int simulationTicks = 120000;
     public static int tickInterval = 20;
 
     public static GeneticType crossoverType = GeneticType.WEIGHTS;
