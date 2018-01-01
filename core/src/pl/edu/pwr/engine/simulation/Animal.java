@@ -15,9 +15,12 @@ public class Animal extends Entity {
     private NeuralNet neuralNet;
     private Entity mouth;
     private double[] nextInputs;
+    private int respawnCooldown;
+    private final static int defaultRespawnCooldown = 20;
 
     public Animal(float x, float y, float speed, float angle, Color color, float radius, NeuralNetParams neuralNetParams) {
         super(x, y, speed, angle, color, radius);
+        respawnCooldown = 0;
         this.neuralNet = new FeedforwardNeuralNet(
                 neuralNetParams.numberLayers,
                 neuralNetParams.numberNeuronsPerLayer,
@@ -28,6 +31,7 @@ public class Animal extends Entity {
 
     public Animal(float x, float y, float speed, float angle, Color color, float radius, List<double[][]> weights) {
         super(x, y, speed, angle, color, radius);
+        respawnCooldown = 0;
         this.neuralNet = new FeedforwardNeuralNet(weights);
     }
 
@@ -63,5 +67,13 @@ public class Animal extends Entity {
     @Override
     public Genotype mapToGenotype() {
         return new Genotype(fitness, neuralNet.getWeights());
+    }
+
+    public int decrementRespawnCooldown(){
+        return --respawnCooldown;
+    }
+
+    public void setRespawnCooldown(){
+        respawnCooldown = defaultRespawnCooldown;
     }
 }

@@ -71,4 +71,10 @@ public class EntityFactory {
         }
         return null;
     }
+
+    public static Entity randomizePosition(Entity entity){
+        entity.setX(random.nextFloat() * Parameters.borderX);
+        entity.setY(random.nextFloat() * Parameters.borderY);
+        return entity;
+    }
 }

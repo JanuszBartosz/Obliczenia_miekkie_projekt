@@ -90,6 +90,17 @@ public class Simulation {
         Map<Entity, Set<Entity>> intersectedPlants = Entity.getIntersectedEntities(herbivoresMouth, plants);
         Map<Entity, Set<Entity>> intersectedHerbivores = Entity.getIntersectedEntities(carnivoresMouth, herbivores);
 
+        List<Entity> herbivoresToRespawn = new ArrayList<>();
+
+        // Respawn loop
+        for (Entity herbivore : deadHerbivores){
+            if(((Animal)herbivore).decrementRespawnCooldown() == 0){
+                herbivoresToRespawn.add(EntityFactory.randomizePosition(herbivore));
+            }
+        }
+        herbivores.addAll(herbivoresToRespawn);
+        deadHerbivores.removeAll(herbivoresToRespawn);
+
         for (Entity carnivore : carnivores) {
             //Check if caught pray.
             Entity mouth = carnivore.getChildren().get(0);
@@ -99,6 +110,7 @@ public class Simulation {
                 for (Entity intersection : intersections) {
                     if (!deadHerbivores.contains(intersection)) {
                         deadHerbivores.add(intersection);
+                        ((Animal)deadHerbivores.get(deadHerbivores.size() - 1)).setRespawnCooldown();
                         herbivores.remove(intersection);
                     }
                 }
@@ -127,13 +139,13 @@ public class Simulation {
             RelativeEntity leftEye = carnivore.getChildren().get(1);
             RelativeEntity rightEye = carnivore.getChildren().get(2);
             if (nearestHerbivore != null) {
-                inputs[0] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
-                inputs[1] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
+                inputs[0] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
+                inputs[1] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestHerbivore.getX(), nearestHerbivore.getY());
             } else {
                 inputs[0] = 0;
                 inputs[1] = 0;
 
-                System.out.println("Returning from simulation due to no herbivores");
+                // Returning from simulation due to no herbivores
                 retVal = false;
             }
             carnivore.setNextInputs(inputs);
@@ -145,10 +157,10 @@ public class Simulation {
             double[] inputs = new double[4];
             RelativeEntity leftEye = herbivore.getChildren().get(1);
             RelativeEntity rightEye = herbivore.getChildren().get(2);
-            inputs[0] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestPlant.getX(), nearestPlant.getY());
-            inputs[1] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestPlant.getX(), nearestPlant.getY());
-            inputs[2] = Entity.euclideanDistance(leftEye.getX(), leftEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
-            inputs[3] = Entity.euclideanDistance(rightEye.getX(), rightEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
+            inputs[0] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestPlant.getX(), nearestPlant.getY());
+            inputs[1] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestPlant.getX(), nearestPlant.getY());
+            inputs[2] = Entity.getDistanceOnTorus(leftEye.getX(), leftEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
+            inputs[3] = Entity.getDistanceOnTorus(rightEye.getX(), rightEye.getY(), nearestCarnivore.getX(), nearestCarnivore.getY());
             herbivore.setNextInputs(inputs);
         }
 
