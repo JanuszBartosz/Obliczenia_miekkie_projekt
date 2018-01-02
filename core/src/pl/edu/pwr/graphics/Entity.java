@@ -115,6 +115,10 @@ public class Entity {
         this.angle = angle;
     }
 
+    public int getFitness(){
+        return fitness;
+    }
+
     public void makeStep() {
         if (speed != 0) {
             setX(getX() + (float) Math.sin(angle) * speed);

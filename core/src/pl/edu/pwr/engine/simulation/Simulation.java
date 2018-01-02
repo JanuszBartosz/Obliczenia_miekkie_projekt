@@ -83,6 +83,15 @@ public class Simulation {
         return carnivores.stream().map(Entity::mapToGenotype).collect(Collectors.toList());
     }
 
+    public List<Entity> getHerbivores() {
+        return Stream.concat(herbivores.stream(), deadHerbivores.stream()).collect(Collectors.toList());
+    }
+
+    public List<Entity> getCarnivores() {
+        return carnivores;
+    }
+
+
     public synchronized boolean simulate() {
         boolean retVal = true;
         Set<Entity> plantsToRemove = new HashSet<>();

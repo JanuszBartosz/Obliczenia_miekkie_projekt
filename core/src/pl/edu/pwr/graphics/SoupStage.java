@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import pl.edu.pwr.Dumper;
 import pl.edu.pwr.EntityStepTimer;
 import pl.edu.pwr.ForwardableTimer;
 import pl.edu.pwr.Timer;
@@ -23,6 +24,7 @@ public class SoupStage extends Stage {
 
         shapeRenderer = new ShapeRenderer();
         stepTimer = new EntityStepTimer(new Simulation(), Parameters.tickInterval, Parameters.simulationTicks);
+        Dumper.dumpParameters();
     }
 
     @Override
