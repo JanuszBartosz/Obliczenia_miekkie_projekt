@@ -52,6 +52,7 @@ public class EntityStepTimer extends ForwardableTimer {
     @Override
     protected void onFinish() {
         Dumper.dumpData(getGeneration(), simulation);
+
         LocalTime start = LocalTime.now();
         List<Entity> newHerbivorePopulation = new GeneticAlgorithm(simulation.getHerbivoresGenotypes()).run().stream()
                 .map(x -> EntityFactory.getEntity(EntityType.HERBIVORE, x)).collect(Collectors.toList());
@@ -66,6 +67,11 @@ public class EntityStepTimer extends ForwardableTimer {
             startFastForward();
         }
 
+        // Finish after 200 generations
+        if(getGeneration() == 200){
+            reset();
+            cancel();
+        }
         incrementGeneration();
     }
 

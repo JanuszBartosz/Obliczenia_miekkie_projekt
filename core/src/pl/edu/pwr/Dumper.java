@@ -4,8 +4,10 @@ import pl.edu.pwr.engine.Parameters;
 import pl.edu.pwr.engine.simulation.Simulation;
 import pl.edu.pwr.graphics.Entity;
 
-import java.io.File;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class Dumper {
@@ -14,15 +16,19 @@ public class Dumper {
     private PrintWriter herbivoresWriter;
     private PrintWriter carnivoresWriter;
 
-    private final static String parametersFilename = "parameters.txt";
-    private final static String herbivoresFilename = "herbivores.txt";
-    private final static String carnivoresFilename = "carnivores.txt";
+    private final static String parametersFilename = "parameters";
+    private final static String herbivoresFilename = "herbivores";
+    private final static String carnivoresFilename = "carnivores";
+    private final static String extension = ".txt";
 
     protected Dumper() {
         try {
-            parametersWriter = new PrintWriter(parametersFilename);
-            herbivoresWriter = new PrintWriter(herbivoresFilename);
-            carnivoresWriter = new PrintWriter(carnivoresFilename);
+            DateFormat df = new SimpleDateFormat(" dd-MM-yy HHmmss");
+            String sdt = df.format(new Date(System.currentTimeMillis()));
+
+            parametersWriter = new PrintWriter(parametersFilename + sdt + extension);
+            herbivoresWriter = new PrintWriter(herbivoresFilename + sdt + extension);
+            carnivoresWriter = new PrintWriter(carnivoresFilename + sdt + extension);
         }
         catch (Exception e){
             e.printStackTrace();
