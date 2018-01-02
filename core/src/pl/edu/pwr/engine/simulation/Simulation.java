@@ -95,6 +95,13 @@ public class Simulation {
         return Stream.concat(carnivores.stream(), deadCarnivores.stream()).collect(Collectors.toList());
     }
 
+    public int getAliveHerbivoresCount(){
+        return herbivores.size();
+    }
+
+    public int getAliveCarnivoresCount(){
+        return carnivores.size();
+    }
 
     public synchronized boolean simulate() {
         boolean retVal = true;

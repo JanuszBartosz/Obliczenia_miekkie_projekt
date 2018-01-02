@@ -43,6 +43,10 @@ public class EntityStepTimer extends ForwardableTimer {
 
     @Override
     protected void onTick() {
+        if(getGeneration() == 1000){
+            Dumper.dumpPopulation(getGeneration(), simulation);
+        }
+
         if (!simulation.simulate()) {
             cancel();
             onFinish();
@@ -52,6 +56,7 @@ public class EntityStepTimer extends ForwardableTimer {
     @Override
     protected void onFinish() {
         Dumper.dumpData(getGeneration(), simulation);
+        Dumper.flushPopulation();
 
         LocalTime start = LocalTime.now();
         List<Entity> newHerbivorePopulation = new GeneticAlgorithm(simulation.getHerbivoresGenotypes()).run().stream()
@@ -68,7 +73,7 @@ public class EntityStepTimer extends ForwardableTimer {
         }
 
         // Finish after 200 generations
-        if(getGeneration() == 200){
+        if(getGeneration() == 1000){
             reset();
             cancel();
         }
