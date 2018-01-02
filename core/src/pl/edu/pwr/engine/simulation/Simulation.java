@@ -133,6 +133,7 @@ public class Simulation {
                 carnivore.incrementFoundFood(intersections.size());
                 for (Entity intersection : intersections) {
                     if (!deadHerbivores.contains(intersection)) {
+                        intersection.fitnessPenalty();
                         deadHerbivores.add(intersection);
                         ((Animal) deadHerbivores.get(deadHerbivores.size() - 1)).setRespawnCooldown();
                         herbivores.remove(intersection);
@@ -238,6 +239,7 @@ public class Simulation {
             Entity carnivore = iterator.next();
             if (!carnivore.isAlive()) {
                 if (!deadCarnivores.contains(carnivore)) {
+                    carnivore.fitnessPenalty();
                     deadCarnivores.add(carnivore);
                     ((Animal) deadCarnivores.get(deadCarnivores.size() - 1)).setRespawnCooldown();
                     iterator.remove();
@@ -249,6 +251,7 @@ public class Simulation {
             Entity herbivore = iterator.next();
             if (!herbivore.isAlive()) {
                 if (!deadHerbivores.contains(herbivore)) {
+                    herbivore.fitnessPenalty();
                     deadHerbivores.add(herbivore);
                     ((Animal) deadHerbivores.get(deadHerbivores.size() - 1)).setRespawnCooldown();
                     iterator.remove();

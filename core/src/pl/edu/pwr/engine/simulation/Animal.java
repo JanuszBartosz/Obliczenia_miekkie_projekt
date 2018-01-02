@@ -16,7 +16,7 @@ public class Animal extends Entity {
     private Entity mouth;
     private double[] nextInputs;
     private int respawnCooldown;
-    private final static int defaultRespawnCooldown = 250;
+    private final static int defaultRespawnCooldown = 1000;
     private int stepCounter;
     private int fullness;
     private boolean alive;
@@ -117,4 +117,5 @@ public class Animal extends Entity {
         fullness = 500;
         alive = true;
     }
+
 }

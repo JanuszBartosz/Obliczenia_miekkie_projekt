@@ -311,4 +311,8 @@ public class Entity {
 
     public void resetFullness() {
     }
+
+    public void fitnessPenalty(){
+        fitness -= 4000;
+    }
 }
