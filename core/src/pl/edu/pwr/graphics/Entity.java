@@ -313,6 +313,6 @@ public class Entity {
     }
 
     public void fitnessPenalty(){
-        fitness -= 4000;
+        fitness -= 2000;
     }
 }

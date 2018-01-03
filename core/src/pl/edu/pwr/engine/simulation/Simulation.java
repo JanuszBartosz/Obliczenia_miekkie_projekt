@@ -202,26 +202,20 @@ public class Simulation {
             }
             inputs[4] = (double) herbivore.getFullness();
 
-            double diff1;
             if (inputs[0] > inputs[1]) {
-                diff1 = inputs[0] - inputs[1];
-                inputs[0] = diff1;
+                inputs[0] = inputs[0] - inputs[1];
                 inputs[1] = 0;
             } else {
-                diff1 = inputs[1] - inputs[0];
+                inputs[1] = inputs[1] - inputs[0];
                 inputs[0] = 0;
-                inputs[1] = diff1;
             }
 
-            double diff2;
             if (inputs[2] > inputs[3]) {
-                diff2 = inputs[2] - inputs[3];
-                inputs[2] = diff2;
+                inputs[2] = inputs[2] - inputs[3];
                 inputs[3] = 0;
             } else {
-                diff2 = inputs[3] - inputs[2];
+                inputs[3] = inputs[3] - inputs[2];
                 inputs[2] = 0;
-                inputs[3] = diff2;
             }
 
             herbivore.setNextInputs(inputs);
@@ -239,9 +233,9 @@ public class Simulation {
             Entity carnivore = iterator.next();
             if (!carnivore.isAlive()) {
                 if (!deadCarnivores.contains(carnivore)) {
-                    carnivore.fitnessPenalty();
+                    //carnivore.fitnessPenalty();
                     deadCarnivores.add(carnivore);
-                    ((Animal) deadCarnivores.get(deadCarnivores.size() - 1)).setRespawnCooldown();
+                    //((Animal) deadCarnivores.get(deadCarnivores.size() - 1)).setRespawnCooldown();
                     iterator.remove();
                 }
             }
@@ -251,9 +245,9 @@ public class Simulation {
             Entity herbivore = iterator.next();
             if (!herbivore.isAlive()) {
                 if (!deadHerbivores.contains(herbivore)) {
-                    herbivore.fitnessPenalty();
+                    //herbivore.fitnessPenalty();
                     deadHerbivores.add(herbivore);
-                    ((Animal) deadHerbivores.get(deadHerbivores.size() - 1)).setRespawnCooldown();
+                    //((Animal) deadHerbivores.get(deadHerbivores.size() - 1)).setRespawnCooldown();
                     iterator.remove();
                 }
             }

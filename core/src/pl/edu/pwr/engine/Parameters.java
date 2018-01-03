@@ -3,8 +3,8 @@ package pl.edu.pwr.engine;
 import com.badlogic.gdx.graphics.Color;
 
 public class Parameters {
-    public static double randomMatrixLowerBound = -0.5d;
-    public static double randomMatrixUpperBound = 0.5d;
+    public static double randomMatrixLowerBound = -1.0d;
+    public static double randomMatrixUpperBound = 1.0d;
 
     public static int tournamentSize = 3;
     public static int tournamentWinners = 1;
@@ -21,7 +21,7 @@ public class Parameters {
     public static int networkLayersHerbivores = 3;
     public static int neuronsPerLayerHerbivores = 20;
     public static int networkLayersCarnivores = 2;
-    public static int neuronsPerLayerCarnivores = 15;
+    public static int neuronsPerLayerCarnivores = 20;
 
     public static int simulationTicks = 120000;
     public static int tickInterval = 20;

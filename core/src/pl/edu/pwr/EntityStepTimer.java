@@ -68,7 +68,7 @@ public class EntityStepTimer extends ForwardableTimer {
         }
 
         // Finish after 200 generations
-        if(getGeneration() == 200){
+        if(getGeneration() == 2000){
             reset();
             cancel();
         }

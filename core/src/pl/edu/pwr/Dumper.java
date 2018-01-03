@@ -20,6 +20,7 @@ public class Dumper {
     private final static String herbivoresFilename = "herbivores";
     private final static String carnivoresFilename = "carnivores";
     private final static String extension = ".txt";
+    private final static String folder = "data/carnivore_layers/";
 
     protected Dumper() {
         try {
