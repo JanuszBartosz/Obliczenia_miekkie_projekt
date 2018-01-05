@@ -3,20 +3,20 @@ package pl.edu.pwr.engine;
 import com.badlogic.gdx.graphics.Color;
 
 public class Parameters {
-    public static double randomMatrixLowerBound = -0.5d;
-    public static double randomMatrixUpperBound = 0.5d;
+    public static double randomMatrixLowerBound = -1.0d;
+    public static double randomMatrixUpperBound = 1.0d;
 
     public static int tournamentSize = 3;
     public static int tournamentWinners = 1;
 
     public static double crossoverRate = 0.8d;
-    public static double specimenMutationRate = 0.4d;
-    public static double geneMutationRate = 0.2d;
-    public static double maxMutationValue = 0.2d;
+    public static double specimenMutationRate = 0.5d;
+    public static double geneMutationRate = 0.15d;
+    public static double maxMutationValue = 0.3d;
 
     public static int numberPlants = 40;
-    public static int numberHerbivores = 30;
-    public static int numberCarnivores = 15;
+    public static int numberHerbivores = 36;
+    public static int numberCarnivores = 20;
 
     public static int networkLayersHerbivores = 3;
     public static int neuronsPerLayerHerbivores = 20;
