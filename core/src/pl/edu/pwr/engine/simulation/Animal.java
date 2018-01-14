@@ -61,7 +61,7 @@ public class Animal extends Entity {
         for (int i = 0; i < inputs.length - 1; i++) {
             inputs[i] *= 10;
         }
-        inputs[inputs.length - 1] = (Math.abs(Parameters.initialFullness - inputs[inputs.length - 1]) / Parameters.maxFullness) * 100;
+        inputs[inputs.length - 1] = ((Parameters.initialFullness - inputs[inputs.length - 1]) / Parameters.maxFullness) * 100;
         return inputs;
     }
 

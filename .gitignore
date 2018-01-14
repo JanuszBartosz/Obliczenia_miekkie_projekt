@@ -131,6 +131,7 @@ Thumbs.db
 .idea/modules/
 core/out/
 desktop/out/
-carnivores.txt
-herbivores.txt
-parameters.txt
+carnivores*.txt
+herbivores*.txt
+parameters*.txt
+population*.txt

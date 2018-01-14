@@ -15,8 +15,8 @@ public class Parameters {
     public static double maxMutationValue = 0.2d;
 
     public static int numberPlants = 40;
-    public static int numberHerbivores = 30;
-    public static int numberCarnivores = 15;
+    public static int numberHerbivores = 36;
+    public static int numberCarnivores = 20;
 
     public static int networkLayersHerbivores = 3;
     public static int neuronsPerLayerHerbivores = 20;
