@@ -47,6 +47,7 @@ public class Parameters {
     public final static float maxMoveAngle = (float) (1.0 / 2.0 * Math.PI);
 
     public final static float maxSpeed = 2;
+    public static boolean score = false;
 
     public static String toStringStatic() {
         StringBuilder sb = new StringBuilder();

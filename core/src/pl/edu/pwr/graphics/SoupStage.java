@@ -6,12 +6,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import pl.edu.pwr.Dumper;
 import pl.edu.pwr.EntityStepTimer;
-import pl.edu.pwr.ForwardableTimer;
-import pl.edu.pwr.Timer;
 import pl.edu.pwr.engine.Parameters;
 import pl.edu.pwr.engine.simulation.Simulation;
-
-import java.util.ArrayList;
 
 public class SoupStage extends Stage {
 
@@ -27,12 +23,14 @@ public class SoupStage extends Stage {
 
         shapeRenderer = new ShapeRenderer();
         stepTimer = new EntityStepTimer(new Simulation(), Parameters.tickInterval, Parameters.simulationTicks);
-        Dumper.dumpParameters();
+        if (Parameters.score) {
+            Dumper.dumpParameters();
+        }
     }
 
     @Override
     public void draw() {
-        if(!stepTimer.isFastForwarding()) {
+        if (!stepTimer.isFastForwarding()) {
             Gdx.gl.glClearColor(1, 1, 1, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);

@@ -2,6 +2,7 @@ package pl.edu.pwr;
 
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import pl.edu.pwr.engine.Parameters;
 import pl.edu.pwr.engine.simulation.EntityFactory;
 import pl.edu.pwr.engine.simulation.EntityType;
 import pl.edu.pwr.engine.simulation.Simulation;
@@ -14,6 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class EntityStepTimer extends ForwardableTimer {
+
     private ReadOnlyIntegerProperty generation;
     private Simulation simulation;
     public boolean fastForwardOnFinish = false;
@@ -43,7 +45,7 @@ public class EntityStepTimer extends ForwardableTimer {
 
     @Override
     protected void onTick() {
-        if(getGeneration() == 1000){
+        if (Parameters.score && getGeneration() == 1000) {
             Dumper.dumpPopulation(getGeneration(), simulation);
         }
 
@@ -55,8 +57,11 @@ public class EntityStepTimer extends ForwardableTimer {
 
     @Override
     protected void onFinish() {
-        Dumper.dumpData(getGeneration(), simulation);
-        Dumper.flushPopulation();
+
+        if (Parameters.score) {
+            Dumper.dumpData(getGeneration(), simulation);
+            Dumper.flushPopulation();
+        }
 
         LocalTime start = LocalTime.now();
         List<Entity> newHerbivorePopulation = new GeneticAlgorithm(simulation.getHerbivoresGenotypes()).run().stream()
@@ -73,7 +78,7 @@ public class EntityStepTimer extends ForwardableTimer {
         }
 
         // Finish after 200 generations
-        if(getGeneration() == 1000){
+        if (getGeneration() == 1000) {
             reset();
             cancel();
         }
