@@ -16,15 +16,13 @@ public class Entity {
     // Facing angle of entity in radians, counterclockwise
     // 0 means facing right, pi facing left
     protected float angle;
+    protected int fitness;
     private float x;
     private float y;
     // Appereance variables
     private Color color;
     private float radius;
-
     private ArrayList<RelativeEntity> children;
-
-    protected int fitness;
 
     // ===== PUBLIC =====
     public Entity(float x, float y, float speed, float angle, Color color, float radius) {
@@ -37,7 +35,7 @@ public class Entity {
         children = new ArrayList<>();
     }
 
-    public static void setBorders(float x, float y) {
+    static void setBorders(float x, float y) {
         if (x < 0 || y < 0) {
             throw new IllegalArgumentException(String.format("Arguments must be positive values: x=%f, y=%f", x, y));
         }
@@ -51,172 +49,6 @@ public class Entity {
         for (Entity e : entities) {
             e.draw(shapeRenderer);
         }
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public ArrayList<RelativeEntity> getChildren() {
-        return children;
-    }
-
-    public void setX(float x) {
-        // Ensure x is in borders range
-        x %= Parameters.borderX;
-
-        if (x < 0) {
-            x = Parameters.borderX + x;
-        }
-
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        // Ensure y is in borders range
-        y %= Parameters.borderY;
-
-        if (y < 0) {
-            y = Parameters.borderY + y;
-        }
-
-        this.y = y;
-    }
-
-    public void setNextInputs(double[] inputs) {
-    }
-
-    public int getFullness() {
-        return 0;
-    }
-
-    public Genotype mapToGenotype() {
-        return null;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
-    public float getAngle() {
-        return angle;
-    }
-
-    public void setAngle(float angle) {
-        // Ensure angle is in maxAngle range
-        angle %= maxAngle;
-
-        if (angle < 0) {
-            angle = maxAngle + angle;
-        }
-
-        this.angle = angle;
-    }
-
-    public int getFitness(){
-        return fitness;
-    }
-
-    public boolean makeStep() {
-        if (speed != 0) {
-            setX(getX() + (float) Math.sin(angle) * speed);
-            setY(getY() + (float) Math.cos(angle) * speed);
-            calculateChildrenPositions();
-        }
-        return false;
-    }
-
-    public void incrementFoundFood(int size) {
-        fitness += size;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public float getRadius() {
-        return radius;
-    }
-
-    public void setRadius(float radius) {
-        if (radius < 0) {
-            throw new IllegalArgumentException("Radius ust be positive");
-        }
-        this.radius = radius;
-    }
-
-    private void draw(ShapeRenderer shapeRenderer, float x, float y) {
-        shapeRenderer.setColor(color);
-        shapeRenderer.circle(x, y, radius);
-    }
-
-    public void draw(ShapeRenderer shapeRenderer) {
-        draw(shapeRenderer, x, y);
-
-        // Draw entity on different side
-        float newX = x;
-        float newY = y;
-        if (x < radius) {
-            newX = x + Parameters.borderX;
-        }
-
-        if (y < radius) {
-            newY = y + Parameters.borderY;
-        }
-
-        if (x + radius > Parameters.borderX) {
-            newX = x - Parameters.borderX;
-        }
-
-        if (y + radius > Parameters.borderY) {
-            newY = y - Parameters.borderY;
-        }
-
-        draw(shapeRenderer, newX, newY);
-        drawChildren(shapeRenderer);
-    }
-
-    public void calculateChildrenPositions() {
-        for (RelativeEntity re : children) {
-            re.setAngle(getAngle() + re.getRelativeAngle());
-            if (re.getRelativeRadius() != 0) {
-                re.setX(getX() + (float) Math.sin(re.getAngle()) * re.getRelativeRadius());
-                re.setY(getY() + (float) Math.cos(re.getAngle()) * re.getRelativeRadius());
-            }
-        }
-    }
-
-    private void drawChildren(ShapeRenderer shapeRenderer) {
-        for (RelativeEntity re : children) {
-            re.draw(shapeRenderer);
-        }
-    }
-
-    // Adds child that is drawn relative to parent
-    public RelativeEntity addRelativeChild(Entity entity, float radius, float angle) {
-        return addRelativeChild(new RelativeEntity(entity, radius, angle));
-    }
-
-    public RelativeEntity addRelativeChild(RelativeEntity entity) {
-        children.add(entity);
-        return entity;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("x=%f, y=%f, speed=%f, angle=%f, radius=%f", x, y, speed, angle, radius);
     }
 
     public static Map<Entity, Set<Entity>> getIntersectedEntities(ArrayList<Entity> entities) {
@@ -262,8 +94,8 @@ public class Entity {
         return retVal;
     }
 
-    public static Map<Entity, Set<Entity>> getIntersectedEntities(List<Entity> intersectors,
-                                                                  List<Entity> intersectees) {
+    public static Map<Entity, Set<Entity>> getIntersectedEntities(List<? extends Entity> intersectors,
+                                                                  List<? extends Entity> intersectees) {
         Map<Entity, Set<Entity>> retVal = new HashMap<>();
         if (intersectors != null && intersectees != null) {
             for (Entity intersector : intersectors) {
@@ -305,14 +137,180 @@ public class Entity {
         return Math.min(distanceNormal, distanceTransposed);
     }
 
+    // Adds child that is drawn relative to parent
+    public <T extends Entity> RelativeEntity addRelativeChild(T entity, float radius, float angle) {
+        return addRelativeChild(new RelativeEntity(entity, radius, angle));
+    }
+
+    private RelativeEntity addRelativeChild(RelativeEntity entity) {
+        children.add(entity);
+        return entity;
+    }
+
+    public void calculateChildrenPositions() {
+        for (RelativeEntity re : children) {
+            re.setAngle(getAngle() + re.getRelativeAngle());
+            if (re.getRelativeRadius() != 0) {
+                re.setX(getX() + (float) Math.sin(re.getAngle()) * re.getRelativeRadius());
+                re.setY(getY() + (float) Math.cos(re.getAngle()) * re.getRelativeRadius());
+            }
+        }
+    }
+
+    private void draw(ShapeRenderer shapeRenderer, float x, float y) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.circle(x, y, radius);
+    }
+
+    public void draw(ShapeRenderer shapeRenderer) {
+        draw(shapeRenderer, x, y);
+
+        // Draw entity on different side
+        float newX = x;
+        float newY = y;
+        if (x < radius) {
+            newX = x + Parameters.borderX;
+        }
+
+        if (y < radius) {
+            newY = y + Parameters.borderY;
+        }
+
+        if (x + radius > Parameters.borderX) {
+            newX = x - Parameters.borderX;
+        }
+
+        if (y + radius > Parameters.borderY) {
+            newY = y - Parameters.borderY;
+        }
+
+        draw(shapeRenderer, newX, newY);
+        drawChildren(shapeRenderer);
+    }
+
+    private void drawChildren(ShapeRenderer shapeRenderer) {
+        for (RelativeEntity re : children) {
+            re.draw(shapeRenderer);
+        }
+    }
+
+    public void fitnessPenalty(){
+        fitness -= 4000;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        // Ensure angle is in maxAngle range
+        angle %= maxAngle;
+
+        if (angle < 0) {
+            angle = maxAngle + angle;
+        }
+
+        this.angle = angle;
+    }
+
+    public ArrayList<RelativeEntity> getChildren() {
+        return children;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public int getFitness(){
+        return fitness;
+    }
+
+    public int getFullness() {
+        return 0;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public void setRadius(float radius) {
+        if (radius < 0) {
+            throw new IllegalArgumentException("Radius ust be positive");
+        }
+        this.radius = radius;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        // Ensure x is in borders range
+        x %= Parameters.borderX;
+
+        if (x < 0) {
+            x = Parameters.borderX + x;
+        }
+
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        // Ensure y is in borders range
+        y %= Parameters.borderY;
+
+        if (y < 0) {
+            y = Parameters.borderY + y;
+        }
+
+        this.y = y;
+    }
+
+    public void incrementFoundFood(int size) {
+        fitness += size;
+    }
+
     public boolean isAlive(){
         return true;
+    }
+
+    public boolean makeStep() {
+        if (speed != 0) {
+            setX(getX() + (float) Math.sin(angle) * speed);
+            setY(getY() + (float) Math.cos(angle) * speed);
+            calculateChildrenPositions();
+        }
+        return false;
+    }
+
+    public Genotype mapToGenotype() {
+        return null;
     }
 
     public void resetFullness() {
     }
 
-    public void fitnessPenalty(){
-        fitness -= 4000;
+    public void setNextInputs(double[] inputs) {
+    }
+
+    @Override
+    public String toString() {
+        return String.format("x=%f, y=%f, speed=%f, angle=%f, radius=%f", x, y, speed, angle, radius);
     }
 }

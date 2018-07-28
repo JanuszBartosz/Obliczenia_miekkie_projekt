@@ -2,6 +2,10 @@
   <dictionary name="snowflake">
     <words>
       <w>feedforward</w>
+      <w>intersectee</w>
+      <w>intersectees</w>
+      <w>intersector</w>
+      <w>intersectors</w>
     </words>
   </dictionary>
 </component>

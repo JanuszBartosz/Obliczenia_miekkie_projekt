@@ -13,13 +13,13 @@ import java.util.stream.Stream;
 
 public class Simulation {
 
-    List<Entity> plants;
-    List<Entity> herbivores;
-    List<Entity> herbivoresMouth;
-    List<Entity> deadHerbivores;
-    List<Entity> carnivores;
-    List<Entity> carnivoresMouth;
-    List<Entity> deadCarnivores;
+    private List<Entity> plants;
+    private List<Animal> herbivores;
+    private List<Entity> herbivoresMouth;
+    private List<Animal> deadHerbivores;
+    private List<Animal> carnivores;
+    private List<Entity> carnivoresMouth;
+    private List<Animal> deadCarnivores;
 
     public Simulation() {
         this.plants = Stream.generate(() -> EntityFactory.getEntity(EntityType.PLANT)).limit(Parameters.numberPlants).collect(Collectors.toList());
@@ -110,8 +110,8 @@ public class Simulation {
         Map<Entity, Set<Entity>> intersectedPlants = Entity.getIntersectedEntities(herbivoresMouth, plants);
         Map<Entity, Set<Entity>> intersectedHerbivores = Entity.getIntersectedEntities(carnivoresMouth, herbivores);
 
-        List<Entity> herbivoresToRespawn = new ArrayList<>();
-        List<Entity> carnivoresToRespawn = new ArrayList<>();
+        List<Animal> herbivoresToRespawn = new ArrayList<>();
+        List<Animal> carnivoresToRespawn = new ArrayList<>();
 
         // Respawn loop
         for (Entity herbivore : deadHerbivores) {

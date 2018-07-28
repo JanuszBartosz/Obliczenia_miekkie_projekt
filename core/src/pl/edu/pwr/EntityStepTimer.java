@@ -9,9 +9,8 @@ import pl.edu.pwr.engine.simulation.Simulation;
 import pl.edu.pwr.engine.training.GeneticAlgorithm;
 import pl.edu.pwr.graphics.Entity;
 
-import java.time.Clock;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class EntityStepTimer extends ForwardableTimer {
@@ -27,15 +26,15 @@ public class EntityStepTimer extends ForwardableTimer {
         resetGeneration();
     }
 
-    public final int getGeneration() {
+    private int getGeneration() {
         return generation.get();
     }
 
-    public final void incrementGeneration() {
+    private void incrementGeneration() {
         ((SimpleIntegerProperty) generation).set(getGeneration() + 1);
     }
 
-    public final void resetGeneration() {
+    private void resetGeneration() {
         ((SimpleIntegerProperty) generation).set(1);
     }
 
